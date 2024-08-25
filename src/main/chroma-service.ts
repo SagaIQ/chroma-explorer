@@ -11,7 +11,7 @@ export class ChromaDbService implements ChromaService {
     switch (connectionOptions.connectionType) {
       case ConnectionType.NO_AUTH: {
         this.chromaClient = new ChromaClient({
-          path: connectionOptions.endpoint
+          path: connectionOptions.connectionString
         });
         break;
       }
@@ -35,7 +35,7 @@ export class ChromaDbService implements ChromaService {
       console.error(err);
       return {
         connected: false,
-        errorMessage: 'Could not connect to endpoint: ' + connectionOptions.endpoint // todo get a better error message up to the user based on the actual error message
+        errorMessage: 'Could not connect to endpoint: ' + connectionOptions.connectionString // todo get a better error message up to the user based on the actual error message
       }
     }
   }
@@ -50,6 +50,7 @@ export class ChromaDbService implements ChromaService {
 
   async heartbeat(): Promise<boolean> {
     if (this.chromaClient === undefined) {
+      console.log(`in heartbeat(), chromaClient is undefined, returning false`)
       return false;
     }
 
@@ -57,6 +58,7 @@ export class ChromaDbService implements ChromaService {
       await this.chromaClient.heartbeat();
       return true;
     } catch (err) {
+      console.log(`heartbeat failed ${err}`)
       return false;
     }
   }
@@ -184,7 +186,7 @@ export const setup = () => {
 
   ipcMain.handle(Channels.CONNECT, async (_, connectionOptions: ConnectionOptions) => {
     // add logger with logger.debug here would be nice
-    console.log(`ipc CONNECT - ${JSON.stringify(connectionOptions)}`);
+    // console.log(`ipc CONNECT - ${JSON.stringify(connectionOptions)}`);
     return chromaService.connect(connectionOptions);
   });
 

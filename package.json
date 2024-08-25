@@ -27,6 +27,8 @@
     "chromadb": "^1.8.1",
     "chromadb-default-embed": "^2.13.2",
     "react-grid-layout": "^1.4.4",
+    "react-router": "^6.26.1",
+    "react-router-dom": "^6.26.1",
     "react-spinners": "^0.14.1",
     "uuid": "^10.0.0"
   },

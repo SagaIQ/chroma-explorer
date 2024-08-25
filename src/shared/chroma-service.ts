@@ -40,7 +40,7 @@ export interface AccessTokenConnectionOptions {
 }
 
 export interface ConnectionOptions {
-  readonly endpoint: string;
+  readonly connectionString: string;
   readonly connectionType: ConnectionType;
   readonly connectionOptions: NoAuthConnectionOptions | UsernamePasswordConnectionOptions | AccessTokenConnectionOptions;
 }
