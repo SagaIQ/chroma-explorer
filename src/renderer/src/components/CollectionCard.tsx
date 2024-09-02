@@ -18,7 +18,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ name, itemCount 
                 className="icon"
                 alt=""
               /> */}
-              <h3>{name}</h3>
+              <h3>{name.length < 20 ? name : `${name.substring(0, 20)}...`}</h3>
             </div>
           </div>
           <p className="itemCount">

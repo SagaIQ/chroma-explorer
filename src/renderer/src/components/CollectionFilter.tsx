@@ -1,14 +1,16 @@
 import React from "react";
 
-interface SearchInputProps {
-  placeholder?: string;
+interface CollectionFilterProps {
+  filter: string;
+  setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const Search: React.FC<SearchInputProps> = ({ placeholder = "Search" }) => {
+export const CollectionFilter: React.FC<CollectionFilterProps> = (props: CollectionFilterProps) => {
+
   return (
     <form className="searchContainer" role="search">
       <label htmlFor="searchInput" className="visually-hidden">
-        Search
+        Filter
       </label>
       <img
         loading="lazy"
@@ -16,7 +18,7 @@ export const Search: React.FC<SearchInputProps> = ({ placeholder = "Search" }) =
         className="searchIcon"
         alt=""
       />
-      <input type="search" id="searchInput" className="searchText" placeholder={placeholder} aria-label="Search" />
+      <input type="search" id="searchInput" className="searchText" placeholder="Filter on Collection Name" value={props.filter} onChange={(e) => props.setFilter(e.target.value)} aria-label="Search" />
     </form>
   );
 };

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Channels } from '../../../shared/contants'
 import { Collection } from "../../../shared/chroma-service";
-import { Search } from "@renderer/components/Search";
+import { CollectionFilter } from "@renderer/components/CollectionFilter";
 import { CollectionCard } from "@renderer/components/CollectionCard";
 
 export const CollectionsPage: React.FC = () => {
+  const [filter, setFilter] = useState<string>('');
+
   const [collections, setCollections] = useState<Array<Collection>>([
     { id: "id1", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
     { id: "id2", name: "smol" },
@@ -16,8 +18,7 @@ export const CollectionsPage: React.FC = () => {
     { id: "id8", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
     { id: "id9", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
   ]);
-
-  console.log(collections);
+  const [filteredCollections, setFilteredCollections] = useState<Array<Collection>>([]);
 
   async function loadCollections() {
     await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTIONS)
@@ -31,23 +32,32 @@ export const CollectionsPage: React.FC = () => {
       { id: "id8", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
       { id: "id9", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },])
     // /setCollections(result);
+    setFilteredCollections(collections);
   }
 
   React.useEffect(() => {
     loadCollections()
   }, []);
+  
+  React.useEffect(() => {
+    if (filter.length === 0) {
+      setFilteredCollections(collections);
+    } else {
+      setFilteredCollections(collections.filter(c => c.name.startsWith(filter)));
+    }
+  }, [filter]);
 
   return (
     <>
     <div className="row">
         <div className="column">
-          <Search />
+          <CollectionFilter filter={filter} setFilter={setFilter} />
         </div>
       </div>
       <div className="column">
         <div className="row">
           {
-            collections.map((collection: Collection) => {
+            filteredCollections.map((collection: Collection) => {
               return (
                 <CollectionCard  name={collection.name} itemCount={0} />
               )
