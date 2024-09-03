@@ -6,34 +6,16 @@ import { CollectionCard } from "@renderer/components/CollectionCard";
 
 export const CollectionsPage: React.FC = () => {
   const [filter, setFilter] = useState<string>('');
-
-  const [collections, setCollections] = useState<Array<Collection>>([
-    { id: "id1", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id2", name: "smol" },
-    { id: "id3", name: "little big bigger" },
-    { id: "id4", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id5", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id6", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id7", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id8", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-    { id: "id9", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-  ]);
+  const [collections, setCollections] = useState<Array<Collection>>([]);
   const [filteredCollections, setFilteredCollections] = useState<Array<Collection>>([]);
 
   async function loadCollections() {
-    await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTIONS)
-    setCollections([{ id: "id1", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id2", name: "smol" },
-      { id: "id3", name: "little big bigger" },
-      { id: "id4", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id5", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id6", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id7", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id8", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },
-      { id: "id9", name: "aakskdkkdk-skskdjsjkss-akakakakaakakks" },])
-    // /setCollections(result);
-    setFilteredCollections(collections);
+    const result = await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTIONS)
+    setCollections(result);
+    setFilteredCollections(result);
   }
+
+
 
   React.useEffect(() => {
     loadCollections()
@@ -59,7 +41,7 @@ export const CollectionsPage: React.FC = () => {
           {
             filteredCollections.map((collection: Collection) => {
               return (
-                <CollectionCard  name={collection.name} itemCount={0} />
+                <CollectionCard name={collection.name} itemCount={0} />
               )
             })
           }

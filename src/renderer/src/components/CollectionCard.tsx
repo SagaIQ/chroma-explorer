@@ -1,11 +1,20 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 interface CollectionCardProps {
   name: string;
   itemCount: number;
 }
 
-export const CollectionCard: React.FC<CollectionCardProps> = ({ name, itemCount }) => {
+export const CollectionCard: React.FC<CollectionCardProps> = (props: CollectionCardProps) => {
+  const navigate = useNavigate();
+
+  console.log(props.itemCount);
+
+  const handleOpenCollection = () => {
+    navigate(`/collections/${props.name}`);
+  }
+  
   return (
     <article className="card">
       <div className="cardContent">
@@ -18,18 +27,18 @@ export const CollectionCard: React.FC<CollectionCardProps> = ({ name, itemCount 
                 className="icon"
                 alt=""
               /> */}
-              <h3>{name.length < 20 ? name : `${name.substring(0, 20)}...`}</h3>
+              <h3>{props.name.length < 20 ? props.name : `${props.name.substring(0, 20)}...`}</h3>
             </div>
           </div>
-          <p className="itemCount">
+          {/* <p className="itemCount">
             {itemCount} <span style={{ fontSize: '20px' }}>Documents</span>
-          </p>
+          </p> */}
         </header>
         <footer className="cardFooter">
           <div className="divider" />
-          <button className="openButton">
+          <button className="openButton" onClick={() => handleOpenCollection()}>
             Open
-            <span className='visually-hidden'>Open {name} collection</span>
+            <span className='visually-hidden'>Open {props.name} collection</span>
           </button>
         </footer>
       </div>

@@ -22,7 +22,7 @@ export const DocumentExplorer = (props: DocumentExplorerProps) => {
   async function loadDocuments(collection: Collection) {
     setDocumentsLoading(true);
 
-    const result = await window.electron.ipcRenderer.invoke(Channels.GET_DOCUMENTS_FOR_COLLECTION, collection?.name);
+    const result = await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTION, collection?.name);
     setDocuments(result);
     setDocumentsLoading(false);
   }

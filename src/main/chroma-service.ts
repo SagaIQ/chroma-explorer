@@ -202,7 +202,7 @@ export const setup = () => {
     return chromaService.listCollections();
   });
 
-  ipcMain.handle(Channels.GET_DOCUMENTS_FOR_COLLECTION, async (_, collectionName: string) => {
+  ipcMain.handle(Channels.GET_COLLECTION, async (_, collectionName: string) => {
     return chromaService.getDocumentsForCollection(collectionName);
   }); 
 
