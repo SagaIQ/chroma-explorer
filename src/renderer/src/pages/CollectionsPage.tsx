@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Channels } from '../../../shared/contants'
 import { Collection } from "../../../shared/chroma-service";
-import { CollectionFilter } from "@renderer/components/CollectionFilter";
+import { Filter } from "@renderer/components/Filter";
 import { CollectionCard } from "@renderer/components/CollectionCard";
 
 export const CollectionsPage: React.FC = () => {
@@ -14,8 +14,6 @@ export const CollectionsPage: React.FC = () => {
     setCollections(result);
     setFilteredCollections(result);
   }
-
-
 
   React.useEffect(() => {
     loadCollections()
@@ -31,9 +29,9 @@ export const CollectionsPage: React.FC = () => {
 
   return (
     <>
-    <div className="row">
+      <div className="row">
         <div className="column">
-          <CollectionFilter filter={filter} setFilter={setFilter} />
+          <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
         </div>
       </div>
       <div className="column">

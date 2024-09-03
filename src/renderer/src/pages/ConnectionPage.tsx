@@ -6,6 +6,7 @@ import { ConnectionOptions, ConnectionStatus, ConnectionType } from "../../../sh
 export const ConnectionPage: React.FC = () => {
   const navigate = useNavigate();
   const [connectionString, setConnectionString] = useState<string>('http://localhost:8001');
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const handleConnectionStringChange = (event) => {
     setConnectionString(event.target.value);
@@ -24,7 +25,9 @@ export const ConnectionPage: React.FC = () => {
 
     if (result.connected) {
       navigate('/collections');
+      setErrorMessage(undefined);
     } else {
+      setErrorMessage(result.errorMessage);
       console.log(`failed to connect with error message: ${result.errorMessage}`);
     }
   }
@@ -98,6 +101,7 @@ export const ConnectionPage: React.FC = () => {
               Connect
             </button>
           </div>
+          {errorMessage ? <h4 style={{color: 'red'}}>{errorMessage}</h4> : <></>}
         </form>
       </div>
     </div>

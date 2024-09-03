@@ -1,11 +1,12 @@
 import React from "react";
 
-interface CollectionFilterProps {
+interface FilterProps {
+  filterName: string;
   filter: string;
   setFilter: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const CollectionFilter: React.FC<CollectionFilterProps> = (props: CollectionFilterProps) => {
+export const Filter: React.FC<FilterProps> = (props: FilterProps) => {
 
   return (
     <form className="searchContainer" role="search">
@@ -18,7 +19,7 @@ export const CollectionFilter: React.FC<CollectionFilterProps> = (props: Collect
         className="searchIcon"
         alt=""
       />
-      <input type="search" id="searchInput" className="searchText" placeholder="Filter on Collection Name" value={props.filter} onChange={(e) => props.setFilter(e.target.value)} aria-label="Search" />
+      <input type="search" id="searchInput" className="searchText" placeholder={`Filter on ${props.filterName} Name`} value={props.filter} onChange={(e) => props.setFilter(e.target.value)} aria-label="Search" />
     </form>
   );
 };

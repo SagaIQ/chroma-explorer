@@ -542,10 +542,20 @@ body {
   align-self: start;
 }
 
-.statusIndicator {
+.statusIndicatorGreen {
   border-radius: 8px;
   border: 2px solid #fff;
   background-color: #1ad598;
+  align-self: end;
+  display: flex;
+  width: 15px;
+  height: 15px;
+}
+
+.statusIndicatorRed {
+  border-radius: 8px;
+  border: 2px solid #fff;
+  background-color: #d51a23;
   align-self: end;
   display: flex;
   width: 15px;
@@ -995,4 +1005,15 @@ body {
   .column {
     flex: 1;
   }
+}
+
+.disconnectButton {
+  align-self: stretch;
+  border-radius: 10px;
+  border: 1px solid var(--Primary-Lavender, #a570ff);
+  min-height: 50px;
+  padding: 15px 50px;
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
 }

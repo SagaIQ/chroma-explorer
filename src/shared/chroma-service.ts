@@ -3,6 +3,12 @@ export interface Collection {
   readonly name: string;
 }
 
+export interface DocumentMetadata {
+  readonly name: string;
+  readonly path: string;
+  readonly chunkCount: number;
+}
+
 export interface Document {
   readonly name: string;
   readonly path: string;
@@ -50,7 +56,7 @@ export interface ChromaService {
   disconnect(): Promise<ConnectionStatus>;
   heartbeat(): Promise<boolean>;
   listCollections(): Promise<Array<Collection>>
-  getDocumentsForCollection(collectionName: string): Promise<Array<string>>;
+  getCollection(collectionName: string): Promise<Array<DocumentMetadata>>;
   getDocument(collectionName: string, documentName: string): Promise<Document | undefined>;
   searchCollection(collectionName: string, searchString: string): Promise<Array<Document>>;
 }

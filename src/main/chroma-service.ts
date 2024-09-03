@@ -2,27 +2,34 @@ import { ChromaClient, IncludeEnum } from "chromadb";
 import { ipcMain } from "electron";
 import path from "path";
 import { Channels } from "../shared/contants"
-import { ChromaService, Collection, ConnectionOptions, ConnectionStatus, ConnectionType, Document, DocumentChunk } from "../shared/chroma-service";
+import { ChromaService, Collection, ConnectionOptions, ConnectionStatus, ConnectionType, Document, DocumentChunk, DocumentMetadata } from "../shared/chroma-service";
 
 export class ChromaDbService implements ChromaService {
   private chromaClient: ChromaClient | undefined;
 
   async connect(connectionOptions: ConnectionOptions): Promise<ConnectionStatus> {
-    switch (connectionOptions.connectionType) {
-      case ConnectionType.NO_AUTH: {
-        this.chromaClient = new ChromaClient({
-          path: connectionOptions.connectionString
-        });
-        break;
+    try {
+      switch (connectionOptions.connectionType) {
+        case ConnectionType.NO_AUTH: {
+          this.chromaClient = new ChromaClient({
+            path: connectionOptions.connectionString
+          });
+          break;
+        }
+        case ConnectionType.USERNAME_PASSWORD: {
+          break;
+        }
+        case ConnectionType.ACCESS_TOKEN: {
+          break;
+        }
+        default:
+          throw new Error(`Cannot call connect() method due to unknown ConnectionType: ${connectionOptions.connectionType}`);
       }
-      case ConnectionType.USERNAME_PASSWORD: {
-        break;
+    } catch (err) {
+      return {
+        connected: false,
+        errorMessage: JSON.stringify(err)
       }
-      case ConnectionType.ACCESS_TOKEN: {
-        break;
-      }
-      default:
-        throw new Error(`Cannot call connect() method due to unknown ConnectionType: ${connectionOptions.connectionType}`);
     }
 
     // verify the connection was successful
@@ -50,7 +57,6 @@ export class ChromaDbService implements ChromaService {
 
   async heartbeat(): Promise<boolean> {
     if (this.chromaClient === undefined) {
-      console.log(`in heartbeat(), chromaClient is undefined, returning false`)
       return false;
     }
 
@@ -58,7 +64,6 @@ export class ChromaDbService implements ChromaService {
       await this.chromaClient.heartbeat();
       return true;
     } catch (err) {
-      console.log(`heartbeat failed ${err}`)
       return false;
     }
   }
@@ -72,14 +77,15 @@ export class ChromaDbService implements ChromaService {
     return collections.map<Collection>(c => ({ ...c }));
   }
 
-  async getDocumentsForCollection(collectionName: string): Promise<Array<string>> {
+  async getCollection(collectionName: string): Promise<Array<DocumentMetadata>> {
     if (this.chromaClient === undefined) {
       return []
     }
 
     const collection = await this.chromaClient.getCollection({ name: collectionName });
 
-    const documents = new Set<string>();
+    //const documents = new Set<string>();
+    const documents = new Map<string, number>();
 
     // do the following until no documents are left to get out of the collection
     let hasMore = true;
@@ -93,12 +99,29 @@ export class ChromaDbService implements ChromaService {
         include: [IncludeEnum.Metadatas]
       });
 
-      collectionContents.metadatas.forEach(document => documents.add(<string>document?.source));
+      collectionContents.metadatas.forEach(document => {
+        const key = <string>document?.source;
+        const chunkCount = documents.get(key);
+
+        if (chunkCount) {
+          documents.set(key, chunkCount + 1);
+        } else {
+          documents.set(key, 1);
+        }
+      });
+
       offset = offset + limit;
       hasMore = collectionContents.metadatas.length !== 0;
     } while (hasMore)
 
-    return Array.from(documents);
+    const output = new Array<DocumentMetadata>();
+    documents.forEach((v, k) => output.push({
+      path: k,
+      name: path.basename(k),
+      chunkCount: v
+    }));
+    
+    return output;
   }
 
   async getDocument(collectionName: string, documentName: string): Promise<Document | undefined> {
@@ -203,7 +226,7 @@ export const setup = () => {
   });
 
   ipcMain.handle(Channels.GET_COLLECTION, async (_, collectionName: string) => {
-    return chromaService.getDocumentsForCollection(collectionName);
+    return chromaService.getCollection(collectionName);
   }); 
 
   ipcMain.handle(Channels.GET_DOCUMENT, async (_, collectionName: string, documentName: string) => {
