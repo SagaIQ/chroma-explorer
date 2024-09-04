@@ -93,7 +93,7 @@ body {
 .logoMain {
   align-self: stretch;
   display: flex;
-  min-width: 240px;
+  min-width: 360px;
   margin: auto 0;
 }
 
@@ -122,7 +122,7 @@ body {
   color: #17181a;
   align-self: start;
   flex-grow: 1;
-  font: 700 36px Manrope, sans-serif;
+  font: 700 32px Manrope, sans-serif;
 }
 
 .divider {
@@ -494,14 +494,13 @@ body {
 
 .statusSection {
   display: flex;
-  min-width: 240px;
   align-items: center;
   gap: 30px;
   color: #12aff0;
   white-space: nowrap;
   text-align: center;
   justify-content: end;
-  width: 410px;
+  width: 400px;
   margin: auto 0;
   font: 600 20px Manrope, sans-serif;
 }
@@ -1016,4 +1015,28 @@ body {
   background: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
+}
+
+.breadcrumbSection {
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  color: #12aff0;
+  white-space: nowrap;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  margin: auto 0;
+  font: 600 16px Manrope, sans-serif;
+}
+
+.breadcrumbSection li {
+  display:inline;
+  padding: 10px 16px;  
+  text-decoration:underline;
+  cursor: pointer;
+} 
+
+.breadcrumbSection ,li:before {
+  padding: 8px;
 }

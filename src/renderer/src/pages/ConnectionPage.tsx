@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Channels } from '../../../shared/contants'
 import { ConnectionOptions, ConnectionStatus, ConnectionType } from "../../../shared/chroma-service";
 
-export const ConnectionPage: React.FC = () => {
-  const navigate = useNavigate();
+type ConnectionPageProps = {
+  connectHandler(connectionString: string): void;
+}
+
+export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionPageProps) => {
   const [connectionString, setConnectionString] = useState<string>('http://localhost:8001');
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
@@ -24,8 +26,8 @@ export const ConnectionPage: React.FC = () => {
     const result: ConnectionStatus = await window.electron.ipcRenderer.invoke(Channels.CONNECT, connectionOptions);
 
     if (result.connected) {
-      navigate('/collections');
       setErrorMessage(undefined);
+      props.connectHandler(connectionString);
     } else {
       setErrorMessage(result.errorMessage);
       console.log(`failed to connect with error message: ${result.errorMessage}`);

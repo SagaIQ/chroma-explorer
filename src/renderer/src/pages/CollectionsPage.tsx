@@ -4,7 +4,11 @@ import { Collection } from "../../../shared/chroma-service";
 import { Filter } from "@renderer/components/Filter";
 import { CollectionCard } from "@renderer/components/CollectionCard";
 
-export const CollectionsPage: React.FC = () => {
+type CollectionsPageProps = {
+  openCollectionHandler(collectionName: string): void;
+}
+
+export const CollectionsPage: React.FC<CollectionsPageProps> = (props: CollectionsPageProps) => {
   const [filter, setFilter] = useState<string>('');
   const [collections, setCollections] = useState<Array<Collection>>([]);
   const [filteredCollections, setFilteredCollections] = useState<Array<Collection>>([]);
@@ -28,23 +32,25 @@ export const CollectionsPage: React.FC = () => {
   }, [filter]);
 
   return (
-    <>
-      <div className="row">
-        <div className="column">
-          <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
-        </div>
-      </div>
-      <div className="column">
+    <div className="pageLayout">
+      <main className="pageContent">
         <div className="row">
-          {
-            filteredCollections.map((collection: Collection) => {
-              return (
-                <CollectionCard name={collection.name} itemCount={0} />
-              )
-            })
-          }
+          <div className="column">
+            <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
+          </div>
         </div>
-      </div>
-    </>
+        <div className="column">
+          <div className="row">
+            {
+              filteredCollections.map((collection: Collection) => {
+                return (
+                  <CollectionCard name={collection.name} openCollectionHandler={props.openCollectionHandler} />
+                )
+              })
+            }
+          </div>
+        </div>
+      </main>
+    </div>
   );
 };

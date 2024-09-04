@@ -1,29 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Channels } from "../../../shared/contants";
+import React from "react";
 
-const Status: React.FC = () => {
-  const navigate = useNavigate();
-  const [isConnected, setIsConnected] = useState<boolean>(false);
+type StatusProps = {
+  isConnected: boolean;
+  disconnectHandler(): void;
+}
 
-  const handleDisconnect = async () => {
-    await window.electron.ipcRenderer.invoke(Channels.DISCONNECT)
-    setIsConnected(false);
-    navigate(`/`);
-  }
-
-  const checkConnectionStatus = async () => {
-    const result = await window.electron.ipcRenderer.invoke(Channels.HEARTBEAT)
-    setIsConnected(result);
-  }
-
-  useEffect(() => {
-    setInterval(checkConnectionStatus, 5000);
-  }, []);
+const Status: React.FC<StatusProps> = (props: StatusProps) => {
 
   return (
     <div className={"statusSection"}>
-      <button hidden={!isConnected} className="disconnectButton" onClick={() => handleDisconnect()}>
+      <button hidden={!props.isConnected} className="disconnectButton" onClick={() => props.disconnectHandler()}>
         Disconnect
         <span className='visually-hidden'>Disconnect from the current database</span>
       </button>
@@ -32,7 +18,7 @@ const Status: React.FC = () => {
           <div className={"statusBackground"}>
             <div className={"statusText"}>API</div>
             {
-              isConnected ? <div className={"statusIndicatorGreen"} aria-hidden="true" /> : <div className={"statusIndicatorRed"} aria-hidden="true" />
+              props.isConnected ? <div className={"statusIndicatorGreen"} aria-hidden="true" /> : <div className={"statusIndicatorRed"} aria-hidden="true" />
             }
           </div>
         </div>
