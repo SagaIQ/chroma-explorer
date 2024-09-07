@@ -10,6 +10,14 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
   const [connectionString, setConnectionString] = useState<string>('http://localhost:8001');
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
+  const connectionTypes: Array<{name: string; value: ConnectionType; }> = [
+    { name: 'None', value: ConnectionType.NO_AUTH },
+    { name: 'Username / Password', value: ConnectionType.USERNAME_PASSWORD },
+    { name: 'Access Token', value: ConnectionType.ACCESS_TOKEN }
+  ]
+
+  const [selectedConnectionType, setSelectedConnectionType] = useState<ConnectionType>(ConnectionType.NO_AUTH);
+
   const handleConnectionStringChange = (event) => {
     setConnectionString(event.target.value);
   }
@@ -19,7 +27,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
 
     const connectionOptions: ConnectionOptions = {
         connectionString,
-        connectionType: ConnectionType.NO_AUTH,
+        connectionType: selectedConnectionType,
         connectionOptions: {}
     }
 
@@ -32,6 +40,42 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
       setErrorMessage(result.errorMessage);
       console.log(`failed to connect with error message: ${result.errorMessage}`);
     }
+  }
+
+  let authFormOptions;
+  if (selectedConnectionType == ConnectionType.NO_AUTH) {
+    authFormOptions = <></>
+  } else if (selectedConnectionType == ConnectionType.USERNAME_PASSWORD) {
+    authFormOptions = 
+      <>
+        <div className={"inputGroup"}>
+          <div className={"inputWrapper"}>
+            <label htmlFor="username" className={"inputLabel"}>
+              Username
+            </label>
+            <input type="text" id="username" className="inputField" aria-label="Username" />
+          </div>
+        </div>
+
+        <div className={"inputGroup"}>
+          <div className={"inputWrapper"}>
+            <label htmlFor="password" className={"inputLabel"}>
+              Password
+            </label>
+            <input type="text" id="password" className="inputField" aria-label="Password" />
+          </div>
+        </div>
+      </>
+  } else {
+    authFormOptions = 
+      <div className={"inputGroup"}>
+        <div className={"inputWrapper"}>
+          <label htmlFor="token" className={"inputLabel"}>
+            Token
+          </label>
+          <input type="text" id="token" className="inputField" aria-label="Token" />
+        </div>
+      </div>
   }
 
   return (
@@ -62,40 +106,18 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
               <label htmlFor="authentication" className={"inputLabel"}>
                 Authentication
               </label>
-              <select id="authentication" className={"dropdown"} aria-label="Authentication">
-                <option className={"dropdownItemSelected"}>None</option>
-                <option className={"dropdownItem"}>Username / Password</option>
-                <option className={"dropdownItem"}>Token Based</option>
+              <select id="authentication" className={"dropdown"} aria-label="Authentication"
+                value={selectedConnectionType}
+                onChange={e => setSelectedConnectionType(e.target.value as ConnectionType)}
+              >
+                {connectionTypes.map(connectionType => (
+                  <option id={connectionType.value} value={connectionType.value} className={"dropdownItem"}>{connectionType.name}</option>
+                ))}
               </select>
             </div>
           </div>
-
-          <div className={"inputGroup"}>
-            <div className={"inputWrapper"}>
-              <label htmlFor="token" className={"inputLabel"}>
-                Token
-              </label>
-              <input type="text" id="token" className="inputField" aria-label="Token" />
-            </div>
-          </div>
-
-          <div className={"inputGroup"}>
-            <div className={"inputWrapper"}>
-              <label htmlFor="username" className={"inputLabel"}>
-                Username
-              </label>
-              <input type="text" id="username" className="inputField" aria-label="Username" />
-            </div>
-          </div>
-
-          <div className={"inputGroup"}>
-            <div className={"inputWrapper"}>
-              <label htmlFor="password" className={"inputLabel"}>
-                Password
-              </label>
-              <input type="text" id="password" className="inputField" aria-label="Password" />
-            </div>
-          </div>
+          
+          {authFormOptions}
 
           <div className={"buttonWrapper"}>
             <span className={"buttonText"}>Save and Continue</span>
