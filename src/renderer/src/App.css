@@ -878,6 +878,12 @@ body {
   flex: 1;
   flex-basis: 0%;
   margin: auto 0;
+  align-self: stretch;
+  flex: 1;
+  border-radius: 10px;
+  width: 100%;
+  white-space: nowrap;
+  padding: 16px 20px;
 }
 
 .options {
