@@ -6,6 +6,7 @@ import Breadcrumb from "./Breadcrumb";
 type HeaderProps = {
   connectionString: string | undefined;
   selectedCollectionName: string | undefined;
+  selectedDocumentName: string | undefined;
   isConnected: boolean;
   disconnectHandler(): void
   connectionStringBreadcrumbHandler(): void;
@@ -21,6 +22,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
             <Breadcrumb
               connectionString={props.connectionString}
               selectedCollectionName={props.selectedCollectionName}
+              selectedDocumentName={props.selectedDocumentName}
               connectionStringBreadcrumbHandler={props.connectionStringBreadcrumbHandler} />
             <Status isConnected={props.isConnected} disconnectHandler={props.disconnectHandler} />
           </div>

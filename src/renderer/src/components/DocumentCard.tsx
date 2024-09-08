@@ -1,19 +1,13 @@
 import React from 'react';
-import { useNavigate } from "react-router-dom";
 import { DocumentMetadata } from '../../../shared/chroma-service';
 
-interface DocumentCardProps {
+type DocumentCardProps = {
   collectionName: string;
   documentMetadata: DocumentMetadata
+  openDocumentHandler(collectionName: string, documentName: string): void;
 }
 
 export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardProps) => {
-  const navigate = useNavigate();
-
-  const handleOpenDocument = () => {
-    navigate(`/collections/${props.collectionName}/documents/${props.documentMetadata.name}`);
-  }
-  
   return (
     <article className="card">
       <div className="cardContent">
@@ -35,7 +29,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardPro
         </header>
         <footer className="cardFooter">
           <div className="divider" />
-          <button className="openButton" onClick={() => handleOpenDocument()}>
+          <button className="openButton" onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name)}>
             Open
             <span className='visually-hidden'>Open {props.documentMetadata.name} document</span>
           </button>

@@ -12,6 +12,7 @@ function App(): JSX.Element {
 
   const [connectionString, setConnectionString] = useState<string | undefined>(undefined);
   const [selectedCollectionName, setSelectedCollectionName] = useState<string | undefined>(undefined);
+  const [selectedDocumentName, setSelectedDocumentName] = useState<string | undefined>(undefined);
   const [isConnected, setIsConnected] = useState<boolean>(false);
 
   const connectHandler = async (connectionString: string) => {
@@ -27,6 +28,7 @@ function App(): JSX.Element {
     setIsConnected(false);
     setConnectionString(undefined);
     setSelectedCollectionName(undefined);
+    setSelectedDocumentName(undefined);
 
     // go back to connection page
     navigate(`/`);
@@ -37,9 +39,15 @@ function App(): JSX.Element {
     navigate(`/collections/${collectionName}`);
   }
 
+  const openDocumentHandler = (collectionName: string, documentName: string) => {
+    setSelectedDocumentName(documentName);
+    navigate(`/collections/${collectionName}/${documentName}`);
+  }
+
   const connectionStringBreadcrumbHandler = () => {
     navigate(`/collections`);
     setSelectedCollectionName(undefined);
+    setSelectedDocumentName(undefined);
   };
 
   const checkConnectionStatus = async () => {
@@ -58,6 +66,7 @@ function App(): JSX.Element {
         disconnectHandler={disconnectHandler}  
         connectionString={connectionString}
         selectedCollectionName={selectedCollectionName}
+        selectedDocumentName={selectedDocumentName}
         connectionStringBreadcrumbHandler={connectionStringBreadcrumbHandler}
       />
 
@@ -67,7 +76,9 @@ function App(): JSX.Element {
             <div className={"contentContainer"}>
               <MainContentRoutes
                 connectHandler={connectHandler}
-                openCollectionHandler={openCollectionHandler}>
+                openCollectionHandler={openCollectionHandler}
+                openDocumentHandler={openDocumentHandler}
+              >
               </MainContentRoutes>
             </div>
           </div>

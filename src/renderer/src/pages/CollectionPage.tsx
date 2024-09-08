@@ -5,8 +5,13 @@ import { DocumentMetadata } from "../../../shared/chroma-service";
 import { DocumentCard } from "@renderer/components/DocumentCard";
 import { Filter } from "@renderer/components/Filter";
 
-export const CollectionPage: React.FC = () => {
+type CollectionPageProps = {
+  openDocumentHandler(collectionName: string, documentName: string): void;
+}
+
+export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionPageProps) => {
   const { collectionName } = useParams();
+
   const [filter, setFilter] = useState<string>('');
   const [documents, setDocuments] = useState<Array<DocumentMetadata>>([]);  
   const [filteredDocuments, setFilteredDocuments] = useState<Array<DocumentMetadata>>([]);
@@ -43,7 +48,7 @@ export const CollectionPage: React.FC = () => {
               filteredDocuments.map((document: DocumentMetadata) => {
                 console.log(document);
                 return (
-                  <DocumentCard collectionName={collectionName!} documentMetadata={document} />
+                  <DocumentCard collectionName={collectionName!} documentMetadata={document} openDocumentHandler={props.openDocumentHandler} />
                 )
               })
             }
