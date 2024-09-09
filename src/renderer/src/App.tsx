@@ -36,18 +36,19 @@ function App(): JSX.Element {
 
   const openCollectionHandler = (collectionName: string) => {
     setSelectedCollectionName(collectionName);
+    setSelectedDocumentName(undefined);
     navigate(`/collections/${collectionName}`);
   }
 
-  const openDocumentHandler = (collectionName: string, documentName: string) => {
+  const openDocumentHandler = (collectionName: string, documentName: string, documentPath: string) => {
     setSelectedDocumentName(documentName);
-    navigate(`/collections/${collectionName}/${documentName}`);
+    navigate(`/collections/${collectionName}/${encodeURIComponent(documentPath)}`);
   }
 
   const connectionStringBreadcrumbHandler = () => {
-    navigate(`/collections`);
     setSelectedCollectionName(undefined);
     setSelectedDocumentName(undefined);
+    navigate(`/collections`);
   };
 
   const checkConnectionStatus = async () => {
@@ -68,6 +69,7 @@ function App(): JSX.Element {
         selectedCollectionName={selectedCollectionName}
         selectedDocumentName={selectedDocumentName}
         connectionStringBreadcrumbHandler={connectionStringBreadcrumbHandler}
+        openCollectionHandler={openCollectionHandler}
       />
 
       <main className={"mainContent"}>

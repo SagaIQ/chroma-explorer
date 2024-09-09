@@ -124,7 +124,7 @@ export class ChromaDbService implements ChromaService {
     return output;
   }
 
-  async getDocument(collectionName: string, documentName: string): Promise<Document | undefined> {
+  async getDocument(collectionName: string, documentPath: string): Promise<Document | undefined> {
     if (this.chromaClient === undefined) {
       return undefined;
     }
@@ -135,7 +135,7 @@ export class ChromaDbService implements ChromaService {
 
     const result = await collection.get({
       where: {
-        source: { '$eq': documentName }
+        source: { '$eq': documentPath }
       }
     });
 
@@ -149,8 +149,8 @@ export class ChromaDbService implements ChromaService {
     }
 
     return {
-      name: path.basename(documentName),
-      path: documentName,
+      name: path.basename(documentPath),
+      path: documentPath,
       chunks
     };
   }

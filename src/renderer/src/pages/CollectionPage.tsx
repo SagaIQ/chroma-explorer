@@ -6,7 +6,7 @@ import { DocumentCard } from "@renderer/components/DocumentCard";
 import { Filter } from "@renderer/components/Filter";
 
 type CollectionPageProps = {
-  openDocumentHandler(collectionName: string, documentName: string): void;
+  openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
 }
 
 export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionPageProps) => {

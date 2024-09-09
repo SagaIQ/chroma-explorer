@@ -7,7 +7,7 @@ import { DocumentPage } from './pages/DocumentPage';
 type MainContentRoutesProps = {
   connectHandler(connectionString: string): void;
   openCollectionHandler(collectionName: string): void;
-  openDocumentHandler(collectionName: string, documentName: string): void;
+  openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
 }
 
 export const MainContentRoutes = (props: MainContentRoutesProps) => (

@@ -4,7 +4,7 @@ import { DocumentMetadata } from '../../../shared/chroma-service';
 type DocumentCardProps = {
   collectionName: string;
   documentMetadata: DocumentMetadata
-  openDocumentHandler(collectionName: string, documentName: string): void;
+  openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
 }
 
 export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardProps) => {
@@ -29,7 +29,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardPro
         </header>
         <footer className="cardFooter">
           <div className="divider" />
-          <button className="openButton" onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name)}>
+          <button className="openButton" onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name, props.documentMetadata.path)}>
             Open
             <span className='visually-hidden'>Open {props.documentMetadata.name} document</span>
           </button>

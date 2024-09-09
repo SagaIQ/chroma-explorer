@@ -10,6 +10,7 @@ type HeaderProps = {
   isConnected: boolean;
   disconnectHandler(): void
   connectionStringBreadcrumbHandler(): void;
+  openCollectionHandler(collectionName: string): void;
 }
 
 const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
@@ -23,6 +24,7 @@ const Header: React.FC<HeaderProps> = (props: HeaderProps) => {
               connectionString={props.connectionString}
               selectedCollectionName={props.selectedCollectionName}
               selectedDocumentName={props.selectedDocumentName}
+              openCollectionHandler={props.openCollectionHandler}
               connectionStringBreadcrumbHandler={props.connectionStringBreadcrumbHandler} />
             <Status isConnected={props.isConnected} disconnectHandler={props.disconnectHandler} />
           </div>

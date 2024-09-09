@@ -57,6 +57,6 @@ export interface ChromaService {
   heartbeat(): Promise<boolean>;
   listCollections(): Promise<Array<Collection>>
   getCollection(collectionName: string): Promise<Array<DocumentMetadata>>;
-  getDocument(collectionName: string, documentName: string): Promise<Document | undefined>;
+  getDocument(collectionName: string, documentPath: string): Promise<Document | undefined>;
   searchCollection(collectionName: string, searchString: string): Promise<Array<Document>>;
 }
