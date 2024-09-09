@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Channels } from '../../../shared/contants';
+import { Document, DocumentChunk } from "../../../shared/chroma-service";
 
 export const DocumentPage: React.FC = () => {
   const { collectionName, documentName } = useParams();
 
-  const [documentContents, setDocumentContents] = useState<any>(undefined);
+  const [document, setDocument] = useState<Document | undefined>(undefined);
 
   async function loadDocument() {
-    const result = await window.electron.ipcRenderer.invoke(Channels.GET_DOCUMENT, collectionName, documentName)
-    console.log(result);
-    setDocumentContents(result);
+    const result: Document | undefined = await window.electron.ipcRenderer.invoke(Channels.GET_DOCUMENT, collectionName, documentName)
+    setDocument(result);
   }
 
   React.useEffect(() => {
@@ -19,9 +19,24 @@ export const DocumentPage: React.FC = () => {
 
   return (
     <>
-      Wow, so good
       {
-        JSON.stringify(documentContents)
+        !document ? <></> : 
+        <>
+          {document.chunks.map((chunk: DocumentChunk) => {
+            return (
+              <>
+                {JSON.stringify(chunk.id)}
+                <br />
+                {JSON.stringify(chunk.metadata)}
+                <br />
+                {JSON.stringify(chunk.content)}
+                <br />
+                <br />
+                <br />
+              </>
+            )
+          })}
+        </>
       }
     </>
   );
