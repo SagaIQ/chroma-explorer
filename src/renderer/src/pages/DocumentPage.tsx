@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Channels } from '../../../shared/contants';
-import { Document, DocumentChunk } from "../../../shared/chroma-service";
+import { Document } from "../../../shared/chroma-service";
+import GridComponent from "@renderer/components/GridComponent";
 
 export const DocumentPage: React.FC = () => {
   const { collectionName, documentName } = useParams();
@@ -11,33 +12,45 @@ export const DocumentPage: React.FC = () => {
   async function loadDocument() {
     const result: Document | undefined = await window.electron.ipcRenderer.invoke(Channels.GET_DOCUMENT, collectionName, documentName)
     setDocument(result);
+
+    console.log(document);
   }
 
   React.useEffect(() => {
     loadDocument()
   }, []);
 
-  return (
-    <>
-      {
-        !document ? <></> : 
-        <>
-          {document.chunks.map((chunk: DocumentChunk) => {
-            return (
-              <>
-                {JSON.stringify(chunk.id)}
-                <br />
-                {JSON.stringify(chunk.metadata)}
-                <br />
-                {JSON.stringify(chunk.content)}
-                <br />
-                <br />
-                <br />
-              </>
-            )
-          })}
-        </>
-      }
-    </>
-  );
+  const gridData = [
+    ['Chunk ID', 'metadata'],
+
+    ['lkajsdf-slkjsdf-lksjdf', "{key: value}"],
+  ];
+
+  return <GridComponent data={gridData} />;
+
+  // return (
+  //   <>
+  //     {
+  //       !document ? <></> : 
+  //       <>
+  //         <table>
+  //           <tr>
+  //             <th>Chunk ID</th>
+  //             <th>Metadata</th>
+  //             <th>Content</th>
+  //           </tr>
+  //           {document.chunks.map((chunk: DocumentChunk) => {
+  //             return (
+  //               <tr>
+  //                 <td>{chunk.id}</td>
+  //                 <td>{JSON.stringify(chunk.metadata)}</td>
+  //                 <td>{chunk.content}</td>
+  //               </tr>
+  //             )
+  //           })}
+  //         </table>
+  //       </>
+  //     }
+  //   </>
+  // );
 };

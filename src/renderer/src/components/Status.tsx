@@ -11,7 +11,6 @@ const Status: React.FC<StatusProps> = (props: StatusProps) => {
     <div className={"statusSection"}>
       <button hidden={!props.isConnected} className="disconnectButton" onClick={() => props.disconnectHandler()}>
         Disconnect
-        <span className='visually-hidden'>Disconnect from the current database</span>
       </button>
       <div className={"statusContainer"}>
         <div className={"status"}>

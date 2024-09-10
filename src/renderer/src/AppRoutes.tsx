@@ -4,13 +4,13 @@ import { CollectionsPage } from './pages/CollectionsPage';
 import { CollectionPage } from './pages/CollectionPage';
 import { DocumentPage } from './pages/DocumentPage';
 
-type MainContentRoutesProps = {
+type AppRoutesProps = {
   connectHandler(connectionString: string): void;
   openCollectionHandler(collectionName: string): void;
   openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
 }
 
-export const MainContentRoutes = (props: MainContentRoutesProps) => (
+export const AppRoutes = (props: AppRoutesProps) => (
   <Routes>
     <Route path="/" element={<ConnectionPage connectHandler={props.connectHandler} />} />
     <Route path="/collections" element={<CollectionsPage openCollectionHandler={props.openCollectionHandler} />} />

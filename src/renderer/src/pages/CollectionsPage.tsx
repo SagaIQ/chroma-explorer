@@ -32,25 +32,23 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = (props: Collectio
   }, [filter]);
 
   return (
-    <div className="pageLayout">
-      <main className="pageContent">
-        <div className="row">
-          <div className="column">
-            <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
-          </div>
-        </div>
+    <>
+      <div className="row">
         <div className="column">
-          <div className="row">
-            {
-              filteredCollections.map((collection: Collection) => {
-                return (
-                  <CollectionCard name={collection.name} openCollectionHandler={props.openCollectionHandler} />
-                )
-              })
-            }
-          </div>
+          <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
         </div>
-      </main>
-    </div>
+      </div>
+      <div className="column">
+        <div className="row">
+          {
+            filteredCollections.map((collection: Collection) => {
+              return (
+                <CollectionCard name={collection.name} openCollectionHandler={props.openCollectionHandler} />
+              )
+            })
+          }
+        </div>
+      </div>
+    </>
   );
 };

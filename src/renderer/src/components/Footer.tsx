@@ -1,5 +1,4 @@
 import React from "react";
-// import styles from "./ChromaExplorer.module.css";
 
 const Footer: React.FC = () => {
   return (

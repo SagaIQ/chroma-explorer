@@ -208,8 +208,6 @@ export const setup = () => {
   const chromaService = new ChromaDbService();
 
   ipcMain.handle(Channels.CONNECT, async (_, connectionOptions: ConnectionOptions) => {
-    // add logger with logger.debug here would be nice
-    // console.log(`ipc CONNECT - ${JSON.stringify(connectionOptions)}`);
     return chromaService.connect(connectionOptions);
   });
 

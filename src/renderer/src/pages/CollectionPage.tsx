@@ -35,26 +35,24 @@ export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionP
   }, [filter]);
 
   return (
-    <div className="pageLayout">
-      <main className="pageContent">
-        <div className="row">
-          <div className="column">
-            <Filter filter={filter} setFilter={setFilter} filterName="Document" />
-          </div>
-        </div>
+    <>
+      <div className="row">
         <div className="column">
-          <div className="row">
-            {
-              filteredDocuments.map((document: DocumentMetadata) => {
-                console.log(document);
-                return (
-                  <DocumentCard collectionName={collectionName!} documentMetadata={document} openDocumentHandler={props.openDocumentHandler} />
-                )
-              })
-            }
-          </div>
+          <Filter filter={filter} setFilter={setFilter} filterName="Document" />
         </div>
-      </main>
-    </div>
+      </div>
+      <div className="column">
+        <div className="row">
+          {
+            filteredDocuments.map((document: DocumentMetadata) => {
+              console.log(document);
+              return (
+                <DocumentCard collectionName={collectionName!} documentMetadata={document} openDocumentHandler={props.openDocumentHandler} />
+              )
+            })
+          }
+        </div>
+      </div>
+    </>
   );
 };

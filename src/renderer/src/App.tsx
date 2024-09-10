@@ -2,7 +2,7 @@ import "./App.css"
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MainContentRoutes } from "./AppRoutes";
+import { AppRoutes } from "./AppRoutes";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import { Channels } from "../../shared/contants";
@@ -76,12 +76,12 @@ function App(): JSX.Element {
         <div className={"contentWrapper"}>
           <div className={"innerContent"}>
             <div className={"contentContainer"}>
-              <MainContentRoutes
+              <AppRoutes
                 connectHandler={connectHandler}
                 openCollectionHandler={openCollectionHandler}
                 openDocumentHandler={openDocumentHandler}
               >
-              </MainContentRoutes>
+              </AppRoutes>
             </div>
           </div>
         </div>

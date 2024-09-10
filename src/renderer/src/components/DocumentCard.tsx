@@ -31,7 +31,6 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardPro
           <div className="divider" />
           <button className="openButton" onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name, props.documentMetadata.path)}>
             Open
-            <span className='visually-hidden'>Open {props.documentMetadata.name} document</span>
           </button>
         </footer>
       </div>

@@ -20,7 +20,6 @@ export const CollectionCard: React.FC<CollectionCardProps> = (props: CollectionC
           <div className="divider" />
           <button className="openButton" onClick={() => props.openCollectionHandler(props.name)}>
             Open
-            <span className='visually-hidden'>Open {props.name} collection</span>
           </button>
         </footer>
       </div>
