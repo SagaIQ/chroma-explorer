@@ -416,7 +416,8 @@ body {
 
 .card {
   display: flex;
-  max-width: 351px;
+  min-width: 340px;
+  max-width: 340px;
   flex-direction: column;
   font-family: Manrope, sans-serif;
   padding: 10px;
@@ -435,12 +436,8 @@ body {
 }
 
 .card .cardHeader {
-  display: flex;
   min-height: 104px;
-  max-width: 100%;
   width: 281px;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .card .titleWrapper {

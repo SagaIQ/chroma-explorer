@@ -12,7 +12,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = (props: CollectionC
         <header className="cardHeader">
           <div className={"titleWrapper"}>
             <div className="titleIcon">
-              <h4>{props.name.length < 30 ? props.name : `${props.name.substring(0, 30)}...`}</h4>
+              <h4>{props.name.length < 24 ? props.name : `${props.name.substring(0, 24)}...`}</h4>
             </div>
           </div>
         </header>

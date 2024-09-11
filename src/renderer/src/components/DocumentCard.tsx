@@ -20,7 +20,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardPro
                 className="icon"
                 alt=""
               /> */}
-              <h4 title={props.documentMetadata.path}>{props.documentMetadata.name.length < 30 ? props.documentMetadata.name : `${props.documentMetadata.name.substring(0, 30)}...`}</h4>
+              <h4 title={props.documentMetadata.path}>{props.documentMetadata.name.length < 24 ? props.documentMetadata.name : `${props.documentMetadata.name.substring(0, 24)}...`}</h4>
             </div>
           </div>
           <p className="itemCount">
