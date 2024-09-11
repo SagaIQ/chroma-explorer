@@ -24,20 +24,27 @@ export const DocumentPage: React.FC = () => {
       {
         !document ? <></> : 
         <>
-            <table>
+            <table className="gridContainer">
               <tr>
-                <th>Chunk ID</th>
-                <th>Metadata</th>
+                <th style={{ textAlign: 'left', width: '340px', minWidth: '340px', maxWidth: '340px'}}>Chunk ID</th>
+                <th style={{ textAlign: 'left' }}>Metadata</th>
               </tr>
               {document.chunks.map((chunk: DocumentChunk) => {
                 return (
                   <>
                     <tr>
-                      <td>{chunk.id}</td>
-                      <td>{JSON.stringify(chunk.metadata)}</td>
+                      <td style={{ textAlign: 'left', width: '340px', minWidth: '340px', maxWidth: '340px', color: 'black'}}>{chunk.id}</td>
+                      <td style={{ textAlign: 'left', color: 'black' }}>{JSON.stringify(chunk.metadata)}</td>
                     </tr>
                     <tr>
-                      <td colSpan={2}>{chunk.content}</td>
+                      <td colSpan={2}>
+                        <div style={{paddingTop: '10px', paddingBottom: '10px'}}>
+                          <div style={{color: '#606266'}}>
+                            {chunk.content}
+                          </div>
+                          <div className="rowDivider" />
+                        </div>
+                      </td>
                     </tr>
                   </>
                 )

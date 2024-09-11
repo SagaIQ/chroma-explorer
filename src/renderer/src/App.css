@@ -612,9 +612,7 @@ body {
   border-radius: 10px;
   background-color: rgba(241, 244, 249, 1);
   border: 1px solid rgba(241, 245, 247, 1);
-  display: flex;
   min-height: 52px;
-  width: 100%;
   align-items: center;
   gap: 20px;
   font-size: 15px;
@@ -622,45 +620,11 @@ body {
   line-height: 1.2;
   padding: 8px 16px;
 }
-
-.gridContent {
+.rowDivider {
+  margin-top: 10px;
+  margin-top: 10px;
+  background-color: #606266;
   display: flex;
-  min-width: 240px;
+  min-height: 1px;
   width: 100%;
-  align-items: center;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  flex: 1;
-  margin: auto 0;
-}
-
-.gridRow {
-  display: flex;
-  min-width: 240px;
-  min-height: 36px;
-  gap: 10px;
-  justify-content: flex-start;
-  width: 400px;
-  margin: auto 0;
-}
-
-.gridCell {
-  width: 194px;
-  padding: 0 20px;
-}
-
-.gridRowFlex {
-  display: flex;
-  min-width: 240px;
-  min-height: 36px;
-  gap: 10px;
-  white-space: nowrap;
-  justify-content: flex-start;
-  flex: 1;
-  margin: auto 0;
-}
-
-.gridCellFlex {
-  width: 194px;
 }
