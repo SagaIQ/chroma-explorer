@@ -3,8 +3,8 @@ import { ChromaClient } from 'chromadb';
 import { randomUUID } from 'crypto';
 import { ChromaDbService } from '../../src/main/chroma-service';
 import { ConnectionType } from '../../src/shared/chroma-service';
-
-// to run testcontainers container in debug mode in jest: DEBUG=testcontainers:containers npm run test
+import { unlinkSync, writeFileSync } from 'fs';
+const bcrypt = require('bcrypt');
 
 jest.setTimeout(300000)
 
@@ -64,6 +64,10 @@ describe('ChromaDbService', () => {
           "2",
           "3",
         ],
+        "included": [
+          "metadatas",
+          "documents",
+        ],
         "metadatas": [
           null,
           null,
@@ -99,6 +103,10 @@ describe('ChromaDbService', () => {
           "1",
           "2",
           "3",
+        ],
+        "included": [
+          "metadatas",
+          "documents",
         ],
         "metadatas": [
           null,
@@ -226,11 +234,91 @@ describe('ChromaDbService_AccessToken_Authentication', () => {
         provider: 'token',
         credentials: accessToken,
       },
-      fetchOptions: {
-        headers: {
-          CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'X-Chroma-Token'
-        }
-      }
+      // Authorization is the default header, but can also support X-Chroma-Token. We need to expose a new UI field when its set to the non-default so users can specify
+      // see here for the details - https://cookbook.chromadb.dev/security/auth/#token-authentication
+      // fetchOptions: {
+      //   headers: {
+      //     CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'X-Chroma-Token'
+      //   }
+      // }
+    });
+
+    await chromaClient.createCollection({ name: collection })
+
+    const listCollectionsResult = await chromaClient.listCollections();
+    expect (listCollectionsResult.length).toBe(1);
+  });
+});
+
+describe('ChromaDbService_UsernamePassword_Authentication', () => {
+  let container: StartedChromaDBContainer | undefined = undefined;
+  const collection = randomUUID();
+  const username = 'testuser'
+  const password = randomUUID();
+  const htpasswdFileLocation = `/tmp/${randomUUID()}.htpasswd`
+
+  beforeAll(async () => {
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    writeFileSync(htpasswdFileLocation, `${username}:${passwordHash}`);
+
+    container = await new ChromaDBContainer(CHROMA_IMAGE)
+      .withCopyFilesToContainer([{
+        source: htpasswdFileLocation,
+        target: '/chroma/server.htpasswd'
+      }])
+      .withEnvironment({
+        CHROMA_SERVER_AUTHN_CREDENTIALS_FILE: `server.htpasswd`,
+        CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.basic_authn.BasicAuthenticationServerProvider'
+      })
+      .start();
+  });
+
+  afterAll(async () => {
+    if (container) {
+      await container.stop();
+    }
+
+    try {
+      unlinkSync(htpasswdFileLocation)
+    } catch (err) {}
+  });
+
+  it('client with no auth fails to listCollections()', async () => {
+    const chromaClient = new ChromaClient({
+      path: container?.getHttpUrl()
+    });
+
+    try {
+      await chromaClient.listCollections();
+    } catch (err: any) {
+      expect(err.status).toBe(403);
+    }
+  });
+
+  it('client with incorrect auth fails to listCollections()', async () => {
+    const chromaClient = new ChromaClient({
+      path: container?.getHttpUrl(),
+      auth: {
+        provider: 'basic',
+        credentials: `${username}:${password}bad-characters`,
+      },
+    });
+
+    try {
+      await chromaClient.listCollections();
+    } catch (err: any) {
+      expect(err.status).toBe(403);
+    }
+  });
+
+  it('client with auth calls listCollections() successfully', async () => {
+    const chromaClient = new ChromaClient({
+      path: container?.getHttpUrl(),
+      auth: {
+        provider: 'basic',
+        credentials: `${username}:${password}`,
+      },
     });
 
     await chromaClient.createCollection({ name: collection })
