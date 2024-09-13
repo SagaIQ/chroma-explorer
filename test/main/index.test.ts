@@ -4,6 +4,12 @@ import { randomUUID } from 'crypto';
 import { ChromaDbService } from '../../src/main/chroma-service';
 import { ConnectionType } from '../../src/shared/chroma-service';
 
+// to run testcontainers container in debug mode in jest: DEBUG=testcontainers:containers npm run test
+
+jest.setTimeout(300000)
+
+const CHROMA_IMAGE = 'chromadb/chroma:0.5.5'
+
 describe('ChromaDbService', () => {
 
   let container: StartedChromaDBContainer | undefined = undefined;
@@ -14,7 +20,7 @@ describe('ChromaDbService', () => {
 
   beforeAll(async () => {
     // start the chromadb test container
-    container = await new ChromaDBContainer().start()
+    container = await new ChromaDBContainer(CHROMA_IMAGE).start()
     
     // create a new chromadb client connected to the container
     const chromaClient = new ChromaClient({
@@ -179,8 +185,57 @@ describe('ChromaDbService', () => {
     expect(getDocumentResponse!.chunks.find(c => c.id === '2' && c.content === 'shoes')).toBeDefined();
     expect(getDocumentResponse!.chunks.find(c => c.id === '3' && c.content === 'shorts')).toBeDefined();
   });
+});
 
-  it('connects to username/password auth', async () => {
-    // https://github.com/langchain4j/langchain4j/issues/1092
+describe('ChromaDbService_AccessToken_Authentication', () => {
+  const accessToken = randomUUID();
+  let container: StartedChromaDBContainer | undefined = undefined;
+  const collection = randomUUID();
+
+  beforeAll(async () => {
+    container = await new ChromaDBContainer(CHROMA_IMAGE)
+      .withEnvironment({
+        CHROMA_SERVER_AUTHN_CREDENTIALS: accessToken,
+        CHROMA_SERVER_AUTHN_PROVIDER: 'chromadb.auth.token_authn.TokenAuthenticationServerProvider'
+      })
+      .start();
   });
-})
+
+  afterAll(async () => {
+    if (container) {
+      await container.stop();
+    }
+  });
+
+  it('client with no auth fails to listCollections()', async () => {
+    const chromaClient = new ChromaClient({
+      path: container?.getHttpUrl()
+    });
+
+    try {
+      await chromaClient.listCollections();
+    } catch (err: any) {
+      expect(err.status).toBe(403);
+    }
+  });
+
+  it('client with auth calls listCollections() successfully', async () => {
+    const chromaClient = new ChromaClient({
+      path: container?.getHttpUrl(),
+      auth: {
+        provider: 'token',
+        credentials: accessToken,
+      },
+      fetchOptions: {
+        headers: {
+          CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'X-Chroma-Token'
+        }
+      }
+    });
+
+    await chromaClient.createCollection({ name: collection })
+
+    const listCollectionsResult = await chromaClient.listCollections();
+    expect (listCollectionsResult.length).toBe(1);
+  });
+});
