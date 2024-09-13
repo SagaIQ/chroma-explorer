@@ -48,7 +48,7 @@ export interface AccessTokenConnectionOptions {
 export interface ConnectionOptions {
   readonly connectionString: string;
   readonly connectionType: ConnectionType;
-  readonly connectionOptions: NoAuthConnectionOptions | UsernamePasswordConnectionOptions | AccessTokenConnectionOptions;
+  readonly credentials: NoAuthConnectionOptions | UsernamePasswordConnectionOptions | AccessTokenConnectionOptions;
 }
 
 export interface ChromaService {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Channels } from '../../../shared/contants'
-import { ConnectionOptions, ConnectionStatus, ConnectionType } from "../../../shared/chroma-service";
+import { AccessTokenConnectionOptions, ConnectionOptions, ConnectionStatus, ConnectionType, NoAuthConnectionOptions, UsernamePasswordConnectionOptions } from "../../../shared/chroma-service";
 
 type ConnectionPageProps = {
   connectHandler(connectionString: string): void;
@@ -16,25 +16,50 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
     { name: 'Access Token', value: ConnectionType.ACCESS_TOKEN }
   ]
 
-  const [selectedConnectionType, setSelectedConnectionType] = useState<ConnectionType>(ConnectionType.NO_AUTH);
+  const [username, setUsername] = useState<string | undefined>(undefined);
+  const [password, setPassword] = useState<string | undefined>(undefined);
+  const [accessToken, setAccessToken] = useState<string | undefined>(undefined);
 
-  const handleConnectionStringChange = (event) => {
-    setConnectionString(event.target.value);
+  const [connectionType, setConnectionType] = useState<ConnectionType>(ConnectionType.NO_AUTH);
+
+  const handleConnectionTypeChanged = (connectionType: ConnectionType) => {
+    setConnectionType(connectionType);
+
+    setUsername(undefined);
+    setPassword(undefined);
+    setAccessToken(undefined);
   }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let credentials: NoAuthConnectionOptions | UsernamePasswordConnectionOptions | AccessTokenConnectionOptions;
+    if (connectionType === ConnectionType.NO_AUTH) {
+      credentials = {}
+    } else if (connectionType === ConnectionType.USERNAME_PASSWORD) {
+      credentials = {
+        username,
+        password
+      }
+    } else {
+      credentials = {
+        accessToken
+      }
+    }
+
     const connectionOptions: ConnectionOptions = {
         connectionString,
-        connectionType: selectedConnectionType,
-        connectionOptions: {}
+        connectionType,
+        credentials
     }
 
     const result: ConnectionStatus = await window.electron.ipcRenderer.invoke(Channels.CONNECT, connectionOptions);
 
     if (result.connected) {
       setErrorMessage(undefined);
+      setUsername(undefined);
+      setPassword(undefined);
+      setAccessToken(undefined);
       props.connectHandler(connectionString);
     } else {
       setErrorMessage(result.errorMessage);
@@ -43,9 +68,9 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
   }
 
   let authFormOptions;
-  if (selectedConnectionType == ConnectionType.NO_AUTH) {
+  if (connectionType == ConnectionType.NO_AUTH) {
     authFormOptions = <></>
-  } else if (selectedConnectionType == ConnectionType.USERNAME_PASSWORD) {
+  } else if (connectionType == ConnectionType.USERNAME_PASSWORD) {
     authFormOptions = 
       <>
         <div className={"inputGroup"}>
@@ -53,7 +78,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
             <label htmlFor="username" className={"inputLabel"}>
               Username
             </label>
-            <input type="text" id="username" className="inputField" aria-label="Username" />
+            <input type="text" id="username" className="inputField" aria-label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
         </div>
 
@@ -62,7 +87,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
             <label htmlFor="password" className={"inputLabel"}>
               Password
             </label>
-            <input type="text" id="password" className="inputField" aria-label="Password" />
+            <input type="text" id="password" className="inputField" aria-label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
         </div>
       </>
@@ -73,7 +98,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
           <label htmlFor="token" className={"inputLabel"}>
             Token
           </label>
-          <input type="text" id="token" className="inputField" aria-label="Token" />
+          <input type="text" id="token" className="inputField" aria-label="Token" value={accessToken} onChange={(e) => setAccessToken(e.target.value)} />
         </div>
       </div>
   }
@@ -95,8 +120,8 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
                 id="connectionString"
                 className={"inputField"}
                 aria-label="Connection String"
-                placeholder="http://localhost:8001"
-                onChange={handleConnectionStringChange}
+                value={connectionString}
+                onChange={(e) => setConnectionString(e.target.value)}
               />
             </div>
           </div>
@@ -107,8 +132,8 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
                 Authentication
               </label>
               <select id="authentication" className={"dropdown"} aria-label="Authentication"
-                value={selectedConnectionType}
-                onChange={e => setSelectedConnectionType(e.target.value as ConnectionType)}
+                value={connectionType}
+                onChange={e => handleConnectionTypeChanged(e.target.value as ConnectionType)}
               >
                 {connectionTypes.map(connectionType => (
                   <option id={connectionType.value} value={connectionType.value} className={"dropdownItem"}>{connectionType.name}</option>

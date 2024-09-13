@@ -2,7 +2,7 @@ import { ChromaClient, IncludeEnum } from "chromadb";
 import { ipcMain } from "electron";
 import path from "path";
 import { Channels } from "../shared/contants"
-import { ChromaService, Collection, ConnectionOptions, ConnectionStatus, ConnectionType, Document, DocumentChunk, DocumentMetadata } from "../shared/chroma-service";
+import { AccessTokenConnectionOptions, ChromaService, Collection, ConnectionOptions, ConnectionStatus, ConnectionType, Document, DocumentChunk, DocumentMetadata, UsernamePasswordConnectionOptions } from "../shared/chroma-service";
 
 export class ChromaDbService implements ChromaService {
   private chromaClient: ChromaClient | undefined;
@@ -17,9 +17,23 @@ export class ChromaDbService implements ChromaService {
           break;
         }
         case ConnectionType.USERNAME_PASSWORD: {
-          break;
+          const credentials = (connectionOptions.credentials as UsernamePasswordConnectionOptions)
+          this.chromaClient = new ChromaClient({
+            path: connectionOptions.connectionString,
+            auth: {
+              provider: 'basic',
+              credentials: `${credentials.username}:${credentials.password}`
+            }
+          });
         }
         case ConnectionType.ACCESS_TOKEN: {
+          this.chromaClient = new ChromaClient({
+            path: connectionOptions.connectionString,
+            auth: {
+              provider: 'token',
+              credentials: (connectionOptions.credentials as AccessTokenConnectionOptions).accessToken
+            }
+          });
           break;
         }
         default:
@@ -42,7 +56,7 @@ export class ChromaDbService implements ChromaService {
       console.error(err);
       return {
         connected: false,
-        errorMessage: 'Could not connect to endpoint: ' + connectionOptions.connectionString // todo get a better error message up to the user based on the actual error message
+        errorMessage: 'Could not connect to endpoint: ' + connectionOptions.connectionString
       }
     }
   }

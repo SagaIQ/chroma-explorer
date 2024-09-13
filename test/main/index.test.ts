@@ -121,7 +121,7 @@ describe('ChromaDbService', () => {
     const connectResponse = await chromaService.connect({
       connectionString: container.getHttpUrl(),
       connectionType: ConnectionType.NO_AUTH,
-      connectionOptions: {}
+      credentials: {}
     });
 
     // verify the chromadb service is connected
