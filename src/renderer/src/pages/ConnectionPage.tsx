@@ -28,6 +28,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
     setUsername(undefined);
     setPassword(undefined);
     setAccessToken(undefined);
+    setErrorMessage(undefined);
   }
 
   const handleSubmit = async (event) => {

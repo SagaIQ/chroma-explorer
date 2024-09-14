@@ -7,51 +7,54 @@ import { AccessTokenConnectionOptions, ChromaService, Collection, ConnectionOpti
 export class ChromaDbService implements ChromaService {
   private chromaClient: ChromaClient | undefined;
 
-  async connect(connectionOptions: ConnectionOptions): Promise<ConnectionStatus> {
-    try {
-      switch (connectionOptions.connectionType) {
-        case ConnectionType.NO_AUTH: {
-          this.chromaClient = new ChromaClient({
-            path: connectionOptions.connectionString
-          });
-          break;
-        }
-        case ConnectionType.USERNAME_PASSWORD: {
-          const credentials = (connectionOptions.credentials as UsernamePasswordConnectionOptions)
-          this.chromaClient = new ChromaClient({
-            path: connectionOptions.connectionString,
-            auth: {
-              provider: 'basic',
-              credentials: `${credentials.username}:${credentials.password}`
-            }
-          });
-        }
-        case ConnectionType.ACCESS_TOKEN: {
-          this.chromaClient = new ChromaClient({
-            path: connectionOptions.connectionString,
-            auth: {
-              provider: 'token',
-              credentials: (connectionOptions.credentials as AccessTokenConnectionOptions).accessToken
-            }
-          });
-          break;
-        }
-        default:
-          throw new Error(`Cannot call connect() method due to unknown ConnectionType: ${connectionOptions.connectionType}`);
+  getAuthConfiguration(connectionOptions: ConnectionOptions): any {
+    if (connectionOptions.connectionType === ConnectionType.USERNAME_PASSWORD) {
+      const credentials = (connectionOptions.credentials as UsernamePasswordConnectionOptions)
+      return {
+        provider: 'basic',
+        credentials: `${credentials.username}:${credentials.password}`
       }
-    } catch (err) {
+    } else if (connectionOptions.connectionType === ConnectionType.ACCESS_TOKEN) {
+      return {
+        provider: 'token',
+        credentials: (connectionOptions.credentials as AccessTokenConnectionOptions).accessToken
+      }
+    } else {
+      return undefined;
+    }
+  }
+
+  async connect(connectionOptions: ConnectionOptions): Promise<ConnectionStatus> {
+    
+    try {
+      this.chromaClient = new ChromaClient({
+        path: connectionOptions.connectionString,
+        auth: this.getAuthConfiguration(connectionOptions)
+      });
+    }
+    catch (err) {
+      console.log(`error creating ChromaClient: ${err}`);
       return {
         connected: false,
         errorMessage: JSON.stringify(err)
       }
     }
 
-    // verify the connection was successful
+    // verify the connection was successful and auth is configured
     try {
-      const connected = await this.heartbeat();
-      return {
-        connected
-      };
+      const connected: Promise<number> | any = await this.chromaClient.countCollections();
+      console.log(`connectedResponse: ${connected}`)
+      if (connected.status === 403) {
+        return {
+          connected: false,
+          errorMessage: 'Status=403, Authentication failed'
+        };
+      } else {
+        return {
+          connected: true
+        }
+      }
+      
     } catch (err) {
       console.error(err);
       return {
