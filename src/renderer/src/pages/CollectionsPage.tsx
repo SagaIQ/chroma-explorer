@@ -35,7 +35,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = (props: Collectio
     <>
       <div className="row">
         <div className="column">
-          <Filter filter={filter} setFilter={setFilter} filterName="Collection" />
+          <Filter filter={filter} setFilter={setFilter} filterName={"Collection"} />
         </div>
       </div>
       <div className="column">

@@ -112,7 +112,8 @@ body {
   justify-content: start;
   flex: 1;
   flex-basis: 0%;
-  padding: 42px 0;
+  padding-top: 20px;
+  padding-bottom: 40px;
 }
 
 .innerContent {
@@ -371,9 +372,53 @@ body {
   height: 15px;
 }
 
-/* search */
-
 .searchContainer {
+  border-radius: 10px;
+  display: flex;
+  color: #809fb8;
+  background-color: #fff;
+  border: 1px solid #f1f4f9;
+  padding: 12px 20px;
+  font: 600 16px/1 Manrope, sans-serif;
+}
+
+.searchText {
+  align-self: stretch;
+  flex-grow: 1;
+  margin: auto 0;
+  border-radius: 10px;
+  width: 100%;
+  white-space: nowrap;
+  padding: 16px 20px;
+  border: 1px solid #d9e1e7;
+}
+
+.searchButton {
+  font-family: Manrope, sans-serif;
+  color: #000;
+  margin-left: 10px;
+  padding: 0 5em;
+  border-radius: 10px;
+  align-self: stretch;
+  border: 1px solid var(--Primary-Lavender, #a570ff);
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.searchButtonDisabled {
+  font-family: Manrope, sans-serif;
+  color: #000;
+  margin-left: 10px;
+  padding: 0 5em;
+  border-radius: 10px;
+  align-self: stretch;
+  border: 1px solid gray;
+  background: none;
+  cursor: not-allowed;
+}
+
+.filterContainer {
   border-radius: 10px;
   background-color: #fff;
   display: flex;
@@ -387,16 +432,25 @@ body {
   border: 1px solid #f1f4f9;
 }
 
+.filterText {
+  align-self: stretch;
+  flex: 1;
+  flex-basis: 0%;
+  margin: auto 0;
+  align-self: stretch;
+  flex: 1;
+  border-radius: 10px;
+  width: 100%;
+  white-space: nowrap;
+  padding: 16px 20px;
+  border: 1px solid #d9e1e7;
+}
+
 .searchIcon {
   aspect-ratio: 0.95;
   object-fit: contain;
   object-position: center;
   width: 21px;
-  align-self: stretch;
-  margin: auto 0;
-}
-
-.searchText {
   align-self: stretch;
   margin: auto 0;
 }
@@ -508,42 +562,6 @@ body {
 
 .card h3 {
   margin-top: 0px;
-}
-
-.search {
-  border-radius: 10px;
-  display: flex;
-  margin-top: 12px;
-  width: 100%;
-  align-items: center;
-  gap: 20px;
-  font-size: 18px;
-  color: #809fb8;
-  line-height: 1;
-  justify-content: start;
-  padding: 16px 40px;
-}
-
-.searchIcon {
-  aspect-ratio: 0.95;
-  object-fit: contain;
-  object-position: center;
-  width: 21px;
-  align-self: stretch;
-  margin: auto 0;
-}
-
-.searchText {
-  align-self: stretch;
-  flex: 1;
-  flex-basis: 0%;
-  margin: auto 0;
-  align-self: stretch;
-  flex: 1;
-  border-radius: 10px;
-  width: 100%;
-  white-space: nowrap;
-  padding: 16px 20px;
 }
 
 .options {

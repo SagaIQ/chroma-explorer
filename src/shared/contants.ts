@@ -4,6 +4,6 @@ export const Channels = {
   HEARTBEAT: 'heartbeat',
   GET_COLLECTIONS: 'get-collections',
   GET_COLLECTION: 'get-collection',
+  SEARCH_COLLECTION: 'search-collection',
   GET_DOCUMENT: 'get-document',
-  SEARCH_COLLECTION_FOR_CONTENT: 'search-collection-for-content'
 }

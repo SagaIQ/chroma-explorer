@@ -51,6 +51,10 @@ function App(): JSX.Element {
     navigate(`/collections`);
   };
 
+  const searchCollectionHandler = (collectionName: string, searchString: string) => {
+    navigate(`/collections/${collectionName}/search/${encodeURIComponent(searchString)}`);
+  }
+
   const checkConnectionStatus = async () => {
     const result = await window.electron.ipcRenderer.invoke(Channels.HEARTBEAT)
     setIsConnected(result);
@@ -79,6 +83,7 @@ function App(): JSX.Element {
               <AppRoutes
                 connectHandler={connectHandler}
                 openCollectionHandler={openCollectionHandler}
+                searchCollectionHandler={searchCollectionHandler}
                 openDocumentHandler={openDocumentHandler}
               >
               </AppRoutes>

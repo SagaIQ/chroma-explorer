@@ -43,7 +43,6 @@ export class ChromaDbService implements ChromaService {
     // verify the connection was successful and auth is configured
     try {
       const connected: Promise<number> | any = await this.chromaClient.countCollections();
-      console.log(`connectedResponse: ${connected}`)
       if (connected.status === 403) {
         return {
           connected: false,
@@ -250,7 +249,7 @@ export const setup = () => {
     return chromaService.getDocument(collectionName, documentName);
   }); 
 
-  ipcMain.handle(Channels.SEARCH_COLLECTION_FOR_CONTENT, async (_, collectionName: string, searchString: string) => {
+  ipcMain.handle(Channels.SEARCH_COLLECTION, async (_, collectionName: string, searchString: string) => {
     return chromaService.searchCollection(collectionName, searchString);
   }); 
 }
