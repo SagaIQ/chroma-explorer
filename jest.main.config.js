@@ -4,7 +4,7 @@ module.exports = {
     "**/*.test.ts"
   ],
   roots: [
-    "<rootDir>/test/main"
+    "<rootDir>/test"
   ],
   moduleFileExtensions: [
       "js",
