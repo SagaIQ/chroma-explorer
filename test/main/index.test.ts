@@ -216,37 +216,25 @@ describe('ChromaDbService_AccessToken_Authentication', () => {
   });
 
   it('client with no auth fails to listCollections()', async () => {
-    const chromaClient = new ChromaClient({
-      path: container?.getHttpUrl()
+    const connectResponse = await new ChromaDbService().connect({
+      connectionString: container?.getHttpUrl()!,
+      connectionType: ConnectionType.NO_AUTH,
+      credentials: {}
     });
-
-    try {
-      await chromaClient.listCollections();
-    } catch (err: any) {
-      expect(err.status).toBe(403);
-    }
+    expect (connectResponse.connected).toBe(false);
+    expect (connectResponse.errorMessage).toBe(`Could not connect to endpoint: ${container?.getHttpUrl()}`);
   });
 
   it('client with auth calls listCollections() successfully', async () => {
-    const chromaClient = new ChromaClient({
-      path: container?.getHttpUrl(),
-      auth: {
-        provider: 'token',
-        credentials: accessToken,
-      },
-      // Authorization is the default header, but can also support X-Chroma-Token. We need to expose a new UI field when its set to the non-default so users can specify
-      // see here for the details - https://cookbook.chromadb.dev/security/auth/#token-authentication
-      // fetchOptions: {
-      //   headers: {
-      //     CHROMA_AUTH_TOKEN_TRANSPORT_HEADER: 'X-Chroma-Token'
-      //   }
-      // }
+    const connectResponse = await new ChromaDbService().connect({
+      connectionString: container?.getHttpUrl()!,
+      connectionType: ConnectionType.ACCESS_TOKEN,
+      credentials: {
+        accessToken
+      }
     });
-
-    await chromaClient.createCollection({ name: collection })
-
-    const listCollectionsResult = await chromaClient.listCollections();
-    expect (listCollectionsResult.length).toBe(1);
+    expect (connectResponse.connected).toBe(true);
+    expect(connectResponse.errorMessage).toBeUndefined();
   });
 });
 
@@ -285,15 +273,13 @@ describe('ChromaDbService_UsernamePassword_Authentication', () => {
   });
 
   it('client with no auth fails to listCollections()', async () => {
-    const chromaClient = new ChromaClient({
-      path: container?.getHttpUrl()
+    const connectResponse = await new ChromaDbService().connect({
+      connectionString: container?.getHttpUrl()!,
+      connectionType: ConnectionType.NO_AUTH,
+      credentials: {}
     });
-
-    try {
-      await chromaClient.listCollections();
-    } catch (err: any) {
-      expect(err.status).toBe(403);
-    }
+    expect (connectResponse.connected).toBe(false);
+    expect (connectResponse.errorMessage).toBe(`Could not connect to endpoint: ${container?.getHttpUrl()}`);
   });
 
   it('client with incorrect auth fails to listCollections()', async () => {
@@ -313,17 +299,15 @@ describe('ChromaDbService_UsernamePassword_Authentication', () => {
   });
 
   it('client with auth calls listCollections() successfully', async () => {
-    const chromaClient = new ChromaClient({
-      path: container?.getHttpUrl(),
-      auth: {
-        provider: 'basic',
-        credentials: `${username}:${password}`,
-      },
+    const connectResponse = await new ChromaDbService().connect({
+      connectionString: container?.getHttpUrl()!,
+      connectionType: ConnectionType.USERNAME_PASSWORD,
+      credentials: {
+        username,
+        password
+      }
     });
-
-    await chromaClient.createCollection({ name: collection })
-
-    const listCollectionsResult = await chromaClient.listCollections();
-    expect (listCollectionsResult.length).toBe(1);
+    expect (connectResponse.connected).toBe(true);
+    expect(connectResponse.errorMessage).toBeUndefined();
   });
 });
