@@ -9,7 +9,7 @@ const Status: React.FC<StatusProps> = (props: StatusProps) => {
 
   return (
     <div className={"statusSection"}>
-      <button hidden={!props.isConnected} className="disconnectButton" onClick={() => props.disconnectHandler()}>
+      <button hidden={!props.isConnected} className="button" onClick={() => props.disconnectHandler()}>
         Disconnect
       </button>
       <div className={"statusContainer"}>

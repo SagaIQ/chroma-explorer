@@ -375,9 +375,6 @@ body {
 .searchContainer {
   border-radius: 10px;
   display: flex;
-  color: #809fb8;
-  background-color: #fff;
-  border: 1px solid #f1f4f9;
   padding: 12px 20px;
   font: 600 16px/1 Manrope, sans-serif;
 }
@@ -390,60 +387,44 @@ body {
   width: 100%;
   white-space: nowrap;
   padding: 16px 20px;
-  border: 1px solid #d9e1e7;
+  border: 1px solid #a570ff;
 }
 
-.searchButton {
-  font-family: Manrope, sans-serif;
-  color: #000;
-  margin-left: 10px;
-  padding: 0 5em;
-  border-radius: 10px;
+.button {
   align-self: stretch;
+  border-radius: 10px;
   border: 1px solid var(--Primary-Lavender, #a570ff);
+  min-height: 50px;
+  padding: 15px 50px;
   background: none;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
 }
 
-.searchButtonDisabled {
-  font-family: Manrope, sans-serif;
-  color: #000;
-  margin-left: 10px;
-  padding: 0 5em;
-  border-radius: 10px;
-  align-self: stretch;
-  border: 1px solid gray;
-  background: none;
-  cursor: not-allowed;
+.button:hover,
+.button:focus {
+  background-color: var(--Primary-Lavender, #a570ff);
+  color: #fff;
 }
 
-.filterContainer {
+.buttonDisabled {
+  align-self: stretch;
   border-radius: 10px;
-  background-color: #fff;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  color: #809fb8;
-  justify-content: start;
-  flex-wrap: wrap;
-  padding: 12px 20px;
-  font: 600 16px/1 Manrope, sans-serif;
-  border: 1px solid #f1f4f9;
+  border: 1px solid gray;
+  min-height: 50px;
+  padding: 15px 50px;
+  background: none;
+  cursor: not-allowed;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .filterText {
-  align-self: stretch;
-  flex: 1;
-  flex-basis: 0%;
   margin: auto 0;
-  align-self: stretch;
-  flex: 1;
   border-radius: 10px;
   width: 100%;
   white-space: nowrap;
-  padding: 16px 20px;
-  border: 1px solid #d9e1e7;
+  padding: 16px 0px 16px 10px;
+  border: 1px solid #a570ff;
 }
 
 .searchIcon {
@@ -542,24 +523,6 @@ body {
   white-space: nowrap;
 }
 
-.card .openButton {
-  align-self: stretch;
-  border-radius: 10px;
-  border: 1px solid var(--Primary-Lavender, #a570ff);
-  margin-top: 27px;
-  min-height: 50px;
-  padding: 15px 50px;
-  background: none;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.card .openButton:hover,
-.card .openButton:focus {
-  background-color: var(--Primary-Lavender, #a570ff);
-  color: #fff;
-}
-
 .card h3 {
   margin-top: 0px;
 }
@@ -586,17 +549,6 @@ body {
 
 .column {
   flex-basis: 100%;
-}
-
-.disconnectButton {
-  align-self: stretch;
-  border-radius: 10px;
-  border: 1px solid var(--Primary-Lavender, #a570ff);
-  min-height: 50px;
-  padding: 15px 50px;
-  background: none;
-  cursor: pointer;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 .breadcrumbSection {
@@ -627,7 +579,7 @@ body {
   border-radius: 10px;
   background-color: rgba(241, 244, 249, 1);
   border: 1px solid rgba(241, 245, 247, 1);
-  min-height: 52px;
+  width: 100%;
   align-items: center;
   gap: 20px;
   font-size: 15px;
@@ -635,6 +587,7 @@ body {
   line-height: 1.2;
   padding: 8px 16px;
 }
+
 .rowDivider {
   margin-top: 10px;
   margin-top: 10px;
@@ -642,4 +595,19 @@ body {
   display: flex;
   min-height: 1px;
   width: 100%;
+}
+
+.loading {
+  margin: auto;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 10px solid #ddd;
+  border-top-color: #a570ff;
+  animation: loading 1s linear infinite;
+}
+@keyframes loading {
+  to {
+    transform: rotate(360deg);
+  }
 }

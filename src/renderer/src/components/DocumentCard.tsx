@@ -29,7 +29,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props: DocumentCardPro
         </header>
         <footer className="cardFooter">
           <div className="divider" />
-          <button className="openButton" onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name, props.documentMetadata.path)}>
+          <button className="button" style={{marginTop: '20px'}} onClick={() => props.openDocumentHandler(props.collectionName, props.documentMetadata.name, props.documentMetadata.path)}>
             Open
           </button>
         </footer>

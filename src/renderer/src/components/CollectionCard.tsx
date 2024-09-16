@@ -18,7 +18,7 @@ export const CollectionCard: React.FC<CollectionCardProps> = (props: CollectionC
         </header>
         <footer className="cardFooter">
           <div className="divider" />
-          <button className="openButton" onClick={() => props.openCollectionHandler(props.name)}>
+          <button className="button" style={{marginTop: '20px'}} onClick={() => props.openCollectionHandler(props.name)}>
             Open
           </button>
         </footer>

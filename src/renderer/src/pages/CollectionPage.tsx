@@ -13,11 +13,14 @@ type CollectionPageProps = {
 export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionPageProps) => {
   const { collectionName } = useParams();
 
-  const [documents, setDocuments] = useState<Array<DocumentMetadata>>([]);  
+  const [loading, setLoading] = useState<boolean>(true);
+  const [documents, setDocuments] = useState<Array<DocumentMetadata>>([]);
 
   async function loadCollection() {
+    setLoading(true);
     const result = await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTION, collectionName)
     setDocuments(result);
+    setLoading(false);
   }
 
   React.useEffect(() => {
@@ -26,25 +29,29 @@ export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionP
 
   return (
     <>
-      <div className="row">
-        <div className="column">
-          <Search 
-            collectionName={collectionName!} 
-            searchCollectionHandler={props.searchCollectionHandler} />
-        </div>
-      </div>
-      <div className="column">
-        <div className="row">
-          {
-            documents.map((document: DocumentMetadata) => (
-              <DocumentCard 
-                collectionName={collectionName!} 
-                documentMetadata={document} 
-                openDocumentHandler={props.openDocumentHandler} />
-            ))
-          }
-        </div>
-      </div>
+      {loading ? <div className="loading" /> :
+        <>
+          <div className="row">
+            <div className="column">
+              <Search
+                collectionName={collectionName!}
+                searchCollectionHandler={props.searchCollectionHandler} />
+            </div>
+          </div>
+          <div className="column">
+            <div className="row">
+              {
+                documents.map((document: DocumentMetadata) => (
+                  <DocumentCard
+                    collectionName={collectionName!}
+                    documentMetadata={document}
+                    openDocumentHandler={props.openDocumentHandler} />
+                ))
+              }
+            </div>
+          </div>
+        </>
+      }
     </>
   );
 };
