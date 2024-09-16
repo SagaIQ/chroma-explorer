@@ -36,7 +36,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = (props: Collectio
 
   return (
     <>
-      {loading ? <div className="loading" /> :
+      {loading ? <div className="loading"/> :
         <>
           <div className="row">
             <div className="column">

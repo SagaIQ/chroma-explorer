@@ -9,8 +9,6 @@ interface FilterProps {
 export const Filter: React.FC<FilterProps> = (props: FilterProps) => {
 
   return (
-    // <form className="filterContainer">
-      <input className="filterText" placeholder={`Filter on ${props.filterName} Name`} value={props.filter} onChange={(e) => props.setFilter(e.target.value)} />
-    // </form>
+    <input data-testid="filterInput" className="filterText" placeholder={`Filter on ${props.filterName} Name`} value={props.filter} onChange={(e) => props.setFilter(e.target.value)} />
   );
 };

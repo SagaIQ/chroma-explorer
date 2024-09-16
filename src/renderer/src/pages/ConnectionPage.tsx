@@ -118,7 +118,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
               </label>
               <input
                 type="text"
-                id="connectionString"
+                data-testid ="connectionStringInput"
                 className={"inputField"}
                 aria-label="Connection String"
                 value={connectionString}
@@ -147,7 +147,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
 
           <div className={"buttonWrapper"}>
             <span className={"buttonText"}>Save and Continue</span>
-            <button type="submit" className={"button-primary"}>
+            <button type="submit" data-testid="connectButton" className={"button-primary"}>
               Connect
             </button>
           </div>
