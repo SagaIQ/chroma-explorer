@@ -22,11 +22,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Set up Docker
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker-compose
           
       - name: Setup Node version 22
         uses: actions/setup-node@v3
@@ -39,6 +34,11 @@ jobs:
 
       - name: Run build
         run: npm run build
+
+      - name: Set up Docker
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose        
 
       - name: Run tests
         run: npm run test
