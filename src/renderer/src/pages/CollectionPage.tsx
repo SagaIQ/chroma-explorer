@@ -31,13 +31,10 @@ export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionP
     <>
       {loading ? <div className="loading" /> :
         <>
-          <div className="row">
-            <div className="column">
-              <Search
-                collectionName={collectionName!}
-                searchCollectionHandler={props.searchCollectionHandler} />
-            </div>
-          </div>
+          <h3>{`Documents (${documents.length})`}</h3>
+          <Search
+            collectionName={collectionName!}
+            searchCollectionHandler={props.searchCollectionHandler} />
           <div className="column">
             <div className="row">
               {

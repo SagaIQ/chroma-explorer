@@ -14,15 +14,15 @@ const Breadcrumb: React.FC<BreadcrumbProps> = (props: BreadcrumbProps) => {
       <nav>
         <ol>
           { props.connectionString 
-            ? <li onClick={props.connectionStringBreadcrumbHandler}>{props.connectionString.length > 30 ? `${props.connectionString.substring(0, 27)}...` : props.connectionString}</li>
+            ? <li aria-label="connectionStringBreadcrumb" onClick={props.connectionStringBreadcrumbHandler}>{props.connectionString.length > 30 ? `${props.connectionString.substring(0, 27)}...` : props.connectionString}</li>
             : <></>
           }
           { props.selectedCollectionName 
-            ? <>/ <li onClick={() => props.openCollectionHandler(props.selectedCollectionName!)}>{props.selectedCollectionName.length > 30 ? `${props.selectedCollectionName.substring(0, 27)}...` : props.selectedCollectionName}</li></>
+            ? <>/ <li aria-label="collectionBreadcrumb" onClick={() => props.openCollectionHandler(props.selectedCollectionName!)}>{props.selectedCollectionName.length > 30 ? `${props.selectedCollectionName.substring(0, 27)}...` : props.selectedCollectionName}</li></>
             : <></>
           }
           { props.selectedDocumentName 
-            ? <>/ <li>{props.selectedDocumentName.length > 30 ? `${props.selectedDocumentName.substring(0, 27)}...` : props.selectedDocumentName}</li></>
+            ? <>/ <li aria-label="documentBreadcrumb">{props.selectedDocumentName.length > 30 ? `${props.selectedDocumentName.substring(0, 27)}...` : props.selectedDocumentName}</li></>
             : <></>
           } 
         </ol>

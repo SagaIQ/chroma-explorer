@@ -116,7 +116,7 @@ export class ChromaDbService implements ChromaService {
       });
 
       collectionContents.metadatas.forEach(document => {
-        const key = <string>document?.source ?? 'undefined';
+        const key = <string>document?.source ?? '<unknown>';
         const chunkCount = documents.get(key);
 
         if (chunkCount) {
@@ -149,7 +149,7 @@ export class ChromaDbService implements ChromaService {
       name: collectionName, 
     });
 
-    const whereClause = documentPath === 'undefined' ? undefined : {
+    const whereClause = documentPath === '<unknown>' ? undefined : {
       source: { '$eq': documentPath }
     };
 
@@ -191,7 +191,7 @@ export class ChromaDbService implements ChromaService {
     const docs = Array.from(Array(result.ids.length)).map((_, index) => {
       return {
         id: result.ids[index],
-        documentPath: <string>result.metadatas[index]?.source,
+        documentPath: <string>result.metadatas[index]?.source ?? '<unknown>',
         content: <string>result.documents[index],
         metadata: result.metadatas[index],
       }

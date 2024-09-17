@@ -31,13 +31,14 @@ export const CollectionSearchResultsPage: React.FC<CollectionSearchResultsPagePr
           {
             documents.length === 0 ? <div>No search results for <b>'{searchString}'</b> in collection <b>'{collectionName}'</b></div> :
               <>
+                <h3>{`Found '${searchString}' ${documents.reduce((count, current) => count + current.chunks.length, 0)} times across ${documents.length} documents in collection '${collectionName}'`}</h3>
                 {
                   documents.map(document => (
                     <div className="gridContainer" style={{ marginBottom: '20px' }}>
                       <div style={{display: 'flex'}}>
                         <div style={{ fontSize: '24px', color: 'black', flexGrow: 1 }}>{document.name}</div>
                         <button className={"button"} style={{height: '40px'}} onClick={() => props.openDocumentHandler(collectionName!, document.name, document.path)}>
-                          Open
+                          Open Document
                         </button>
                       </div>
                       

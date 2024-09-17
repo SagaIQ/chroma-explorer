@@ -239,7 +239,6 @@ describe('ChromaDbService_AccessToken_Authentication', () => {
 
 describe('ChromaDbService_UsernamePassword_Authentication', () => {
   let container: StartedChromaDBContainer | undefined = undefined;
-  const collection = randomUUID();
   const username = 'testuser'
   const password = randomUUID();
   const htpasswdFileLocation = `/tmp/${randomUUID()}.htpasswd`
