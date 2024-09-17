@@ -28,7 +28,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y docker-compose
           
-
       - name: Setup Node version 22
         uses: actions/setup-node@v3
         with:
