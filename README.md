@@ -1,5 +1,7 @@
 # chroma-explorer
 
+[![Continuous build](https://github.com/SagaIQ/chroma-explorer/actions/workflows/main.yml/badge.svg)](https://github.com/SagaIQ/chroma-explorer/actions/workflows/main.yml)
+
 # To build and run the Chroma Explorer
 
 Chroma Explorer is currently built using Node v22
