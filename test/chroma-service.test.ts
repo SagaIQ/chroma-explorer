@@ -154,25 +154,25 @@ describe('ChromaDbService', () => {
   it('getCollection(collection1) returns correct collection', async () => {
     const getCollectionResponse = await chromaService.getCollection(collection1);
     
-    expect(getCollectionResponse[0].name).toBe('undefined');
-    expect(getCollectionResponse[0].path).toBe('undefined');
+    expect(getCollectionResponse[0].name).toBe('<unknown>');
+    expect(getCollectionResponse[0].path).toBe('<unknown>');
     expect(getCollectionResponse[0].chunkCount).toBe(3);
   })
 
   it('getCollection(collection2) returns correct collection', async () => {
     const getCollectionResponse = await chromaService.getCollection(collection2);
     
-    expect(getCollectionResponse[0].name).toBe('undefined');
-    expect(getCollectionResponse[0].path).toBe('undefined');
+    expect(getCollectionResponse[0].name).toBe('<unknown>');
+    expect(getCollectionResponse[0].path).toBe('<unknown>');
     expect(getCollectionResponse[0].chunkCount).toBe(3);
   })
 
   it('getDocument(collection1, undefined) returns correct document', async () => {
-    const getDocumentResponse = await chromaService.getDocument(collection1, 'undefined');
+    const getDocumentResponse = await chromaService.getDocument(collection1, '<unknown>');
     
     expect(getDocumentResponse).toBeDefined();
-    expect(getDocumentResponse!.name).toBe('undefined');
-    expect(getDocumentResponse!.path).toBe('undefined');
+    expect(getDocumentResponse!.name).toBe('<unknown>');
+    expect(getDocumentResponse!.path).toBe('<unknown>');
 
     expect(getDocumentResponse!.chunks.length).toBe(3);
     expect(getDocumentResponse!.chunks.find(c => c.id === '1' && c.content === 'apples')).toBeDefined();
@@ -181,11 +181,11 @@ describe('ChromaDbService', () => {
   });
 
   it('getDocument(collection2, undefined) returns correct document', async () => {
-    const getDocumentResponse = await chromaService.getDocument(collection2, 'undefined');
+    const getDocumentResponse = await chromaService.getDocument(collection2, '<unknown>');
     
     expect(getDocumentResponse).toBeDefined();
-    expect(getDocumentResponse!.name).toBe('undefined');
-    expect(getDocumentResponse!.path).toBe('undefined');
+    expect(getDocumentResponse!.name).toBe('<unknown>');
+    expect(getDocumentResponse!.path).toBe('<unknown>');
 
     expect(getDocumentResponse!.chunks.length).toBe(3);
     expect(getDocumentResponse!.chunks.find(c => c.id === '1' && c.content === 'shirts')).toBeDefined();
