@@ -26,7 +26,10 @@ jobs:
       - name: Set up Docker
         run: |
           sudo apt-get update
-          sudo apt-get install -y docker-compose                 
+          sudo apt-get install -y docker-compose  
+          
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps          
           
       - name: Setup Node version 22
         uses: actions/setup-node@v3
@@ -44,5 +47,12 @@ jobs:
         run: npm run test
 
       - name: Run playwright tests
-        run: npm run playwright        
+        run: npm run playwright  
+        
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30        
 
