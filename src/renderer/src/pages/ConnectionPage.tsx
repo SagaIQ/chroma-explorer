@@ -79,7 +79,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
             <label htmlFor="username" className={"inputLabel"}>
               Username
             </label>
-            <input type="text" id="username" className="inputField" aria-label="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input type="text" id="username" className="inputField" aria-label="usernameInput" value={username} onChange={(e) => setUsername(e.target.value)} />
           </div>
         </div>
 
@@ -88,7 +88,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
             <label htmlFor="password" className={"inputLabel"}>
               Password
             </label>
-            <input type="text" id="password" className="inputField" aria-label="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="text" id="password" className="inputField" aria-label="passwordInput" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
         </div>
       </>
@@ -99,7 +99,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
           <label htmlFor="token" className={"inputLabel"}>
             Token
           </label>
-          <input type="text" id="token" className="inputField" aria-label="Token" value={accessToken} onChange={(e) => setAccessToken(e.target.value)} />
+          <input type="text" id="token" className="inputField" aria-label="accessTokenInput" value={accessToken} onChange={(e) => setAccessToken(e.target.value)} />
         </div>
       </div>
   }
@@ -113,26 +113,25 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
           </div>
           <div className={"inputGroup"}>
             <div className={"inputWrapper"}>
-              <label htmlFor="connectionString" className={"inputLabel"}>
+              <label className={"inputLabel"}>
                 Connection String
               </label>
               <input
                 type="text"
-                data-testid ="connectionStringInput"
+                aria-label="connectionStringInput"
                 className={"inputField"}
-                aria-label="Connection String"
                 value={connectionString}
-                onChange={(e) => setConnectionString(e.target.value)}
-              />
+                onChange={(e) => setConnectionString(e.target.value)} />
             </div>
           </div>
 
           <div className={"dropdownGroup"}>
             <div className={"dropdownWrapper"}>
-              <label htmlFor="authentication" className={"inputLabel"}>
+              <label className={"inputLabel"}>
                 Authentication
               </label>
-              <select id="authentication" className={"dropdown"} aria-label="Authentication"
+              <select className={"dropdown"} 
+                aria-label="authenticationSelect"
                 value={connectionType}
                 onChange={e => handleConnectionTypeChanged(e.target.value as ConnectionType)}
               >
@@ -147,7 +146,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
 
           <div className={"buttonWrapper"}>
             <span className={"buttonText"}>Save and Continue</span>
-            <button type="submit" data-testid="connectButton" className={"button-primary"}>
+            <button type="submit" className={"button-primary"}>
               Connect
             </button>
           </div>

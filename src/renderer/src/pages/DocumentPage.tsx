@@ -27,6 +27,8 @@ export const DocumentPage: React.FC = () => {
           {
             !document ? <></> :
               <>
+
+                <h3>{`Document Chunks (${document.chunks.length})`}</h3>
                 <table className="gridContainer">
                   <tr>
                     <th style={{ textAlign: 'left', width: '340px', minWidth: '340px', maxWidth: '340px' }}>Chunk ID</th>

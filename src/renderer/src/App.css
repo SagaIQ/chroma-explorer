@@ -418,7 +418,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.filterText {
+.filterInput {
   margin: auto 0;
   border-radius: 10px;
   width: 100%;

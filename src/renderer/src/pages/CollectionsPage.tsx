@@ -38,11 +38,8 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = (props: Collectio
     <>
       {loading ? <div className="loading"/> :
         <>
-          <div className="row">
-            <div className="column">
-              <Filter filter={filter} setFilter={setFilter} filterName={"Collection"} />
-            </div>
-          </div>
+          <h3>{`Collections (${filteredCollections.length})`}</h3>
+          <Filter filter={filter} setFilter={setFilter} filterName={"Collection"} />
           <div className="column">
             <div className="row">
               {
