@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { Document, DocumentChunk } from "../../../shared/chroma-service";
-import { Channels } from "../../../shared/contants";
+import { Document, DocumentChunk } from "../../shared/chroma-service";
+import { Channels } from "../../shared/contants";
 
 type CollectionSearchResultsPageProps = {
   openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
@@ -15,7 +15,7 @@ export const CollectionSearchResultsPage: React.FC<CollectionSearchResultsPagePr
 
   async function loadSearchResults() {
     setLoading(true);
-    const result = await window.electron.ipcRenderer.invoke(Channels.SEARCH_COLLECTION, collectionName, searchString)
+    const result = await window.chromadb.searchCollection(collectionName, searchString);
     setDocuments(result);
     setLoading(false);
   }

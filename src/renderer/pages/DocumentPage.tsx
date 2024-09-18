@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { Channels } from '../../../shared/contants';
-import { Document, DocumentChunk } from "../../../shared/chroma-service";
+import { Channels } from '../../shared/contants';
+import { Document, DocumentChunk } from "../../shared/chroma-service";
 
 export const DocumentPage: React.FC = () => {
   const { collectionName, documentName } = useParams();
@@ -11,7 +11,7 @@ export const DocumentPage: React.FC = () => {
 
   async function loadDocument() {
     setLoading(true);
-    const result: Document | undefined = await window.electron.ipcRenderer.invoke(Channels.GET_DOCUMENT, collectionName, documentName)
+    const result: Document | undefined = await window.chromadb.getDocument(collectionName, documentName)
     setDocument(result);
     setLoading(false);
   }

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Channels } from '../../../shared/contants'
-import { Collection } from "../../../shared/chroma-service";
-import { Filter } from "@renderer/components/Filter";
-import { CollectionCard } from "@renderer/components/CollectionCard";
+import { Channels } from '../../shared/contants'
+import { Collection } from "../../shared/chroma-service";
+import { Filter } from "../components/Filter";
+import { CollectionCard } from "../components/CollectionCard";
 
 type CollectionsPageProps = {
   openCollectionHandler(collectionName: string): void;
@@ -16,7 +16,7 @@ export const CollectionsPage: React.FC<CollectionsPageProps> = (props: Collectio
 
   async function loadCollections() {
     setLoading(true);
-    const result = await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTIONS)
+    const result = await window.chromadb.loadCollections();
     setCollections(result);
     setFilteredCollections(result);
     setLoading(false);

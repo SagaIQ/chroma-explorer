@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Channels } from '../../../shared/contants'
-import { AccessTokenConnectionOptions, ConnectionOptions, ConnectionStatus, ConnectionType, NoAuthConnectionOptions, UsernamePasswordConnectionOptions } from "../../../shared/chroma-service";
+import { Channels } from '../../shared/contants'
+import { AccessTokenConnectionOptions, ConnectionOptions, ConnectionStatus, ConnectionType, NoAuthConnectionOptions, UsernamePasswordConnectionOptions } from "../../shared/chroma-service";
 
 type ConnectionPageProps = {
   connectHandler(connectionString: string): void;
@@ -31,7 +31,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
     setErrorMessage(undefined);
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
     let credentials: NoAuthConnectionOptions | UsernamePasswordConnectionOptions | AccessTokenConnectionOptions;
@@ -54,7 +54,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
         credentials
     }
 
-    const result: ConnectionStatus = await window.electron.ipcRenderer.invoke(Channels.CONNECT, connectionOptions);
+    const result: ConnectionStatus = await window.chromadb.connect(connectionOptions);
 
     if (result.connected) {
       setErrorMessage(undefined);

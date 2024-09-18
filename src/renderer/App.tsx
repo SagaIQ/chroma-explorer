@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { Channels } from "../../shared/contants";
+import { Channels } from "../shared/contants";
 
 function App(): JSX.Element {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ function App(): JSX.Element {
   }
 
   const disconnectHandler = async () => {
-    await window.electron.ipcRenderer.invoke(Channels.DISCONNECT)
+    await window.chromadb.disconnect();
 
     // reset state
     setIsConnected(false);
@@ -56,7 +56,7 @@ function App(): JSX.Element {
   }
 
   const checkConnectionStatus = async () => {
-    const result = await window.electron.ipcRenderer.invoke(Channels.HEARTBEAT)
+    const result = await window.chromadb.heartbeat();
     setIsConnected(result);
   }
 

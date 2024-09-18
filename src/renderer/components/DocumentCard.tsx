@@ -1,5 +1,5 @@
 import React from 'react';
-import { DocumentMetadata } from '../../../shared/chroma-service';
+import { DocumentMetadata } from '../../shared/chroma-service';
 
 type DocumentCardProps = {
   collectionName: string;

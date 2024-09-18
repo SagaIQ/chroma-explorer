@@ -86,7 +86,7 @@ export class ChromaDbService implements ChromaService {
 
   async listCollections(): Promise<Array<Collection>> {
     if (this.chromaClient === undefined) {
-      return new Array<Collection>;
+      return new Array<Collection>();
     }
 
     const collections = await this.chromaClient.listCollections();
@@ -157,7 +157,7 @@ export class ChromaDbService implements ChromaService {
       where: whereClause
     });
 
-    const chunks = new Array<DocumentChunk>;
+    const chunks = new Array<DocumentChunk>();
     for (let i = 0; i < result.ids.length; i++) {
       chunks.push({
         id: result.ids[i],
@@ -200,7 +200,7 @@ export class ChromaDbService implements ChromaService {
     const docIndex = new Map<string, Array<DocumentChunk>>();
     for (const doc of docs) {
       if (!docIndex.has(doc.documentPath)) {
-        docIndex.set(doc.documentPath, new Array<DocumentChunk>);
+        docIndex.set(doc.documentPath, new Array<DocumentChunk>());
       }
   
       docIndex.get(doc.documentPath)?.push({

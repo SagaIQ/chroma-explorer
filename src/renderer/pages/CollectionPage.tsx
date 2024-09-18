@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { Channels } from '../../../shared/contants';
-import { DocumentMetadata } from "../../../shared/chroma-service";
-import { DocumentCard } from "@renderer/components/DocumentCard";
-import { Search } from "@renderer/components/Search";
+import { Channels } from '../../shared/contants';
+import { DocumentMetadata } from "../../shared/chroma-service";
+import { Search } from "../components/Search";
+import { DocumentCard } from "../components/DocumentCard";
 
 type CollectionPageProps = {
   searchCollectionHandler(collectionName: string, searchString: string): void;
@@ -18,7 +18,7 @@ export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionP
 
   async function loadCollection() {
     setLoading(true);
-    const result = await window.electron.ipcRenderer.invoke(Channels.GET_COLLECTION, collectionName)
+    const result = await window.chromadb.loadCollection(collectionName);
     setDocuments(result);
     setLoading(false);
   }
