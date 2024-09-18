@@ -69,7 +69,7 @@ body {
   object-fit: contain;
   object-position: center;
   width: 21px;
-  fill: var(--Primary-Lavender, #a570ff);
+  fill: var(--Primary-Azure, #0CB1F2);
 }
 
 .logoIcon2 {
@@ -77,7 +77,7 @@ body {
   object-fit: contain;
   object-position: center;
   width: 20px;
-  fill: var(--Primary-Peach, #ffad66);
+  fill: var(--Primary-Teal, #0A89A6);
 }
 
 .logoText {
@@ -299,7 +299,7 @@ body {
 .button-primary {
   align-self: stretch;
   border-radius: 10px;
-  background: var(--gradient-lavender-pink-peach, linear-gradient(98deg, #a570ff 0%, #ff6eb2 50%, #ffad66 100%));
+  background: var(--gradient-lavender-seafoam-teal, linear-gradient(98deg, #a570ff 0%, #0A89A6 50%, #6AD9A5 100%));
   margin-top: -21px;
   min-height: 50px;
   font-size: 15px;
@@ -387,13 +387,13 @@ body {
   width: 100%;
   white-space: nowrap;
   padding: 16px 20px;
-  border: 1px solid #a570ff;
+  border: 1px solid #0CB1F2;
 }
 
 .button {
   align-self: stretch;
   border-radius: 10px;
-  border: 1px solid var(--Primary-Lavender, #a570ff);
+  border: 1px solid var(--Primary-Azure, #0CB1F2);
   min-height: 50px;
   padding: 15px 50px;
   background: none;
@@ -403,7 +403,7 @@ body {
 
 .button:hover,
 .button:focus {
-  background-color: var(--Primary-Lavender, #a570ff);
+  background-color: var(--Primary-Azure, #0CB1F2);
   color: #fff;
 }
 
@@ -424,7 +424,7 @@ body {
   width: 100%;
   white-space: nowrap;
   padding: 16px 0px 16px 10px;
-  border: 1px solid #a570ff;
+  border: 1px solid #0CB1F2;
 }
 
 .searchIcon {
@@ -499,7 +499,7 @@ body {
   object-fit: contain;
   object-position: center;
   width: 6px;
-  fill: var(--Primary-Lavender, #a570ff);
+  fill: var(--Primary-Azure, #0CB1F2);
 }
 
 .card .itemCount {
@@ -518,7 +518,7 @@ body {
   flex-direction: column;
   align-items: center;
   font-size: 15px;
-  color: var(--Primary-Lavender, #a570ff);
+  color: var(--Primary-Azure, #0CB1F2);
   font-weight: 600;
   white-space: nowrap;
 }
@@ -603,7 +603,7 @@ body {
   height: 100px;
   border-radius: 50%;
   border: 10px solid #ddd;
-  border-top-color: #a570ff;
+  border-top-color: #0CB1F2;
   animation: loading 1s linear infinite;
 }
 @keyframes loading {

@@ -10,13 +10,13 @@ const Logo: React.FC = () => {
         <div className={"logoIconWrapper"}>
           <img
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/76b74c584bbf0fa70b79ba811eed05ae0dcedfce4be16c55021e2a2f1a95bdd4?placeholderIfAbsent=true&apiKey=ec77cbb3cd35477ead1cb38ab83dc66b"
+            src={`./images/logo-a.svg`}
             className={"logoIcon"}
             alt=""
           />
           <img
             loading="lazy"
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/e296c0f3f1125bcec9cfa49a4c66fec7e089465e8d5c88213d206f4d82d94b0f?placeholderIfAbsent=true&apiKey=ec77cbb3cd35477ead1cb38ab83dc66b"
+            src="./images/logo-b.svg"
             className={"logoIcon2"}
             alt=""
           />
