@@ -1,13 +1,11 @@
 import { ChromaClient, IncludeEnum } from "chromadb";
-import { ipcMain } from "electron";
 import path from "path";
-import { Channels } from "../shared/contants"
 import { AccessTokenConnectionOptions, ChromaService, Collection, ConnectionOptions, ConnectionStatus, ConnectionType, Document, DocumentChunk, DocumentMetadata, UsernamePasswordConnectionOptions } from "../shared/chroma-service";
 
 export class ChromaDbService implements ChromaService {
   private chromaClient: ChromaClient | undefined;
 
-  getAuthConfiguration(connectionOptions: ConnectionOptions): any {
+  getAuthConfiguration(connectionOptions: ConnectionOptions): { provider: string; credentials: string} {
     if (connectionOptions.connectionType === ConnectionType.USERNAME_PASSWORD) {
       const credentials = (connectionOptions.credentials as UsernamePasswordConnectionOptions)
       return {
@@ -25,35 +23,17 @@ export class ChromaDbService implements ChromaService {
   }
 
   async connect(connectionOptions: ConnectionOptions): Promise<ConnectionStatus> {
-    
-    try {
-      this.chromaClient = new ChromaClient({
-        path: connectionOptions.connectionString,
-        auth: this.getAuthConfiguration(connectionOptions)
-      });
-    }
-    catch (err) {
-      console.log(`error creating ChromaClient: ${err}`);
-      return {
-        connected: false,
-        errorMessage: JSON.stringify(err)
-      }
-    }
+    this.chromaClient = new ChromaClient({
+      path: connectionOptions.connectionString,
+      auth: this.getAuthConfiguration(connectionOptions)
+    });
 
     // verify the connection was successful and auth is configured
     try {
-      const connected: Promise<number> | any = await this.chromaClient.countCollections();
-      if (connected.status === 403) {
-        return {
-          connected: false,
-          errorMessage: 'Status=403, Authentication failed'
-        };
-      } else {
-        return {
-          connected: true
-        }
+      await this.chromaClient.countCollections();
+      return {
+        connected: true
       }
-      
     } catch (err) {
       console.error(err);
       return {
@@ -76,12 +56,8 @@ export class ChromaDbService implements ChromaService {
       return false;
     }
 
-    try {
-      await this.chromaClient.heartbeat();
-      return true;
-    } catch (err) {
-      return false;
-    }
+    const response = await this.chromaClient.heartbeat();
+    return response > 0;
   }
 
   async listCollections(): Promise<Array<Collection>> {
@@ -161,7 +137,7 @@ export class ChromaDbService implements ChromaService {
     for (let i = 0; i < result.ids.length; i++) {
       chunks.push({
         id: result.ids[i],
-        content: result.documents[i] ?? '',
+        content: result.documents[i],
         metadata: result.metadatas[i]
       });
     }
@@ -219,37 +195,4 @@ export class ChromaDbService implements ChromaService {
     
     return output;
   }
-}
-  
-
-export const setup = () => {
-  const chromaService = new ChromaDbService();
-
-  ipcMain.handle(Channels.CONNECT, async (_, connectionOptions: ConnectionOptions) => {
-    return chromaService.connect(connectionOptions);
-  });
-
-  ipcMain.handle(Channels.DISCONNECT, async () => {
-    return chromaService.disconnect();
-  });
-
-  ipcMain.handle(Channels.HEARTBEAT, async () => {
-    return chromaService.heartbeat();
-  });
-
-  ipcMain.handle(Channels.GET_COLLECTIONS, async () => {
-    return chromaService.listCollections();
-  });
-
-  ipcMain.handle(Channels.GET_COLLECTION, async (_, collectionName: string) => {
-    return chromaService.getCollection(collectionName);
-  }); 
-
-  ipcMain.handle(Channels.GET_DOCUMENT, async (_, collectionName: string, documentName: string) => {
-    return chromaService.getDocument(collectionName, documentName);
-  }); 
-
-  ipcMain.handle(Channels.SEARCH_COLLECTION, async (_, collectionName: string, searchString: string) => {
-    return chromaService.searchCollection(collectionName, searchString);
-  }); 
 }

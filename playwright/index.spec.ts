@@ -3,7 +3,7 @@ import { ChromaDBContainer, StartedChromaDBContainer } from '@testcontainers/chr
 import { ChromaClient } from 'chromadb';
 import { randomUUID } from 'crypto';
 import { unlinkSync, writeFileSync } from 'fs';
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
 const CHROMA_IMAGE = 'chromadb/chroma:0.5.5'
 
@@ -86,7 +86,7 @@ test.describe('ChromaExplorer', () => {
     ////////////////////////
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     /////////////////////////
@@ -155,7 +155,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // verify the connection string breadcrumb is visible
@@ -172,7 +172,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // verify the collections heading is visible with the correct count
@@ -200,7 +200,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // navigate to the first collection
@@ -226,7 +226,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // navigate to a specific collection
@@ -243,7 +243,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // navigate to a specific collection
@@ -264,7 +264,7 @@ test.describe('ChromaExplorer', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection string and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // navigate to a specific collection
@@ -304,7 +304,7 @@ test.describe('ConnectionPage NO_AUTH', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection details and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByRole('button', { name: "Connect" }).click();
 
     // verify the collections heading is visible with the correct count
@@ -342,7 +342,7 @@ test.describe('ConnectionPage ACCESS_TOKEN', () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection details and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByLabel('authenticationSelect').selectOption('Access Token');
     await window.getByLabel('accessTokenInput').fill(accessToken);
     await window.getByRole('button', { name: "Connect" }).click();
@@ -388,14 +388,16 @@ test.describe('ConnectionPage USERNAME_PASSWORD', () => {
 
     try {
       unlinkSync(htpasswdFileLocation)
-    } catch (err) {}
+    } catch (err) {
+      console.log(`error cleaning up temporary test file ${htpasswdFileLocation}`)
+    }
   });
 
   test('Connects Successfully', async () => {
     const window = await electronApp.firstWindow();
 
     // fill out the connection details and click the connect button
-    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl()!);
+    await window.getByLabel('connectionStringInput').fill(container?.getHttpUrl());
     await window.getByLabel('authenticationSelect').selectOption('Username / Password');
     await window.getByLabel('usernameInput').fill(username);
     await window.getByLabel('passwordInput').fill(password);

@@ -1,14 +1,47 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, ipcMain } from 'electron';
 import path from 'path';
+import { ChromaDbService } from './chroma-service';
+import { ConnectionOptions } from '../shared/chroma-service';
+import { Channels } from '../shared/contants';
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
-import { setup } from './chroma-service'
+export const setup = () => {
+  const chromaService = new ChromaDbService();
 
-setup();
+  ipcMain.handle(Channels.CONNECT, async (_, connectionOptions: ConnectionOptions) => {
+    return chromaService.connect(connectionOptions);
+  });
+
+  ipcMain.handle(Channels.DISCONNECT, async () => {
+    return chromaService.disconnect();
+  });
+
+  ipcMain.handle(Channels.HEARTBEAT, async () => {
+    return chromaService.heartbeat();
+  });
+
+  ipcMain.handle(Channels.GET_COLLECTIONS, async () => {
+    return chromaService.listCollections();
+  });
+
+  ipcMain.handle(Channels.GET_COLLECTION, async (_, collectionName: string) => {
+    return chromaService.getCollection(collectionName);
+  }); 
+
+  ipcMain.handle(Channels.GET_DOCUMENT, async (_, collectionName: string, documentName: string) => {
+    return chromaService.getDocument(collectionName, documentName);
+  }); 
+
+  ipcMain.handle(Channels.SEARCH_COLLECTION, async (_, collectionName: string, searchString: string) => {
+    return chromaService.searchCollection(collectionName, searchString);
+  }); 
+}
+
+setup()
 
 const createWindow = () => {
   // Create the browser window.
@@ -21,6 +54,8 @@ const createWindow = () => {
       preload: path.join(__dirname, 'preload.js'),
     },
   });
+
+  // mainWindow.webContents.openDevTools();
 
   // and load the index.html of the app.
   if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {

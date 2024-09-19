@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Channels } from '../../shared/contants'
 import { AccessTokenConnectionOptions, ConnectionOptions, ConnectionStatus, ConnectionType, NoAuthConnectionOptions, UsernamePasswordConnectionOptions } from "../../shared/chroma-service";
 
 type ConnectionPageProps = {
@@ -31,6 +30,7 @@ export const ConnectionPage: React.FC<ConnectionPageProps> = (props: ConnectionP
     setErrorMessage(undefined);
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSubmit = async (event: any) => {
     event.preventDefault();
 

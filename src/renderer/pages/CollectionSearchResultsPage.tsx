@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
 import { Document, DocumentChunk } from "../../shared/chroma-service";
-import { Channels } from "../../shared/contants";
 
 type CollectionSearchResultsPageProps = {
   openDocumentHandler(collectionName: string, documentName: string, documentPath: string): void;
@@ -37,7 +36,7 @@ export const CollectionSearchResultsPage: React.FC<CollectionSearchResultsPagePr
                     <div className="gridContainer" style={{ marginBottom: '20px' }}>
                       <div style={{display: 'flex'}}>
                         <div style={{ fontSize: '24px', color: 'black', flexGrow: 1 }}>{document.name}</div>
-                        <button className={"button"} style={{height: '40px'}} onClick={() => props.openDocumentHandler(collectionName!, document.name, document.path)}>
+                        <button className={"button"} style={{height: '40px'}} onClick={() => props.openDocumentHandler(collectionName, document.name, document.path)}>
                           Open Document
                         </button>
                       </div>

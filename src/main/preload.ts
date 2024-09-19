@@ -1,7 +1,7 @@
 import { ConnectionOptions } from "../shared/chroma-service";
 import { Channels } from "../shared/contants"
 
-const { contextBridge, ipcRenderer } = require('electron')
+import { contextBridge, ipcRenderer } from 'electron'
 
 export const electronAPI = {
   heartbeat: () => ipcRenderer.invoke(Channels.HEARTBEAT),

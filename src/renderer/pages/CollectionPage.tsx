@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { Channels } from '../../shared/contants';
 import { DocumentMetadata } from "../../shared/chroma-service";
 import { Search } from "../components/Search";
 import { DocumentCard } from "../components/DocumentCard";
@@ -33,14 +32,14 @@ export const CollectionPage: React.FC<CollectionPageProps> = (props: CollectionP
         <>
           <h3>{`Documents (${documents.length})`}</h3>
           <Search
-            collectionName={collectionName!}
+            collectionName={collectionName}
             searchCollectionHandler={props.searchCollectionHandler} />
           <div className="column">
             <div className="row">
               {
                 documents.map((document: DocumentMetadata) => (
                   <DocumentCard
-                    collectionName={collectionName!}
+                    collectionName={collectionName}
                     documentMetadata={document}
                     openDocumentHandler={props.openDocumentHandler} />
                 ))

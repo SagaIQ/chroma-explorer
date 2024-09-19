@@ -18,7 +18,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = (props: BreadcrumbProps) => {
             : <></>
           }
           { props.selectedCollectionName 
-            ? <>/ <li aria-label="collectionBreadcrumb" onClick={() => props.openCollectionHandler(props.selectedCollectionName!)}>{props.selectedCollectionName.length > 30 ? `${props.selectedCollectionName.substring(0, 27)}...` : props.selectedCollectionName}</li></>
+            ? <>/ <li aria-label="collectionBreadcrumb" onClick={() => props.openCollectionHandler(props.selectedCollectionName)}>{props.selectedCollectionName.length > 30 ? `${props.selectedCollectionName.substring(0, 27)}...` : props.selectedCollectionName}</li></>
             : <></>
           }
           { props.selectedDocumentName 

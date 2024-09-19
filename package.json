@@ -14,7 +14,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "eslint --ext .ts,.tsx .",
-    "test": "DEBUG=testcontainers:containers jest",
+    "test": "DEBUG=testcontainers:containers jest --coverage",
     "playwright": "electron-forge package && playwright test"
   },
   "devDependencies": {

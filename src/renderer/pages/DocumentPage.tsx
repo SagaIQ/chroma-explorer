@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useParams } from 'react-router-dom';
-import { Channels } from '../../shared/contants';
 import { Document, DocumentChunk } from "../../shared/chroma-service";
 
 export const DocumentPage: React.FC = () => {

@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { AppRoutes } from "./AppRoutes";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
-import { Channels } from "../shared/contants";
 
 function App(): JSX.Element {
   const navigate = useNavigate();

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Channels } from '../../shared/contants'
 import { Collection } from "../../shared/chroma-service";
 import { Filter } from "../components/Filter";
 import { CollectionCard } from "../components/CollectionCard";
