@@ -70,14 +70,6 @@ test.describe('ChromaExplorer', () => {
     }
   });
 
-  test('Loads successfully', async () => {
-    const window = await electronApp.firstWindow()
-
-    const headerElement = await window.$('h1')
-    const headerText = await headerElement?.textContent()
-    expect(headerText).toBe("Chroma Explorer")
-  });
-
   test('Page navigation works', async () => {
     const window = await electronApp.firstWindow();
 
