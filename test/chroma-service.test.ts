@@ -4,7 +4,7 @@ import { randomUUID } from 'crypto';
 import { ChromaDbService } from '../src/main/chroma-service';
 import { ConnectionType } from '../src/shared/chroma-service';
 import { unlinkSync, writeFileSync } from 'fs';
-
+import os from 'os';
 import bcrypt from 'bcrypt';
 
 jest.setTimeout(300000)
@@ -305,7 +305,7 @@ describe('ChromaDbService_UsernamePassword_Authentication', () => {
   let container: StartedChromaDBContainer | undefined = undefined;
   const username = 'testuser'
   const password = randomUUID();
-  const htpasswdFileLocation = `/tmp/${randomUUID()}.htpasswd`
+  const htpasswdFileLocation = `${os.tmpdir()}/${randomUUID()}.htpasswd`
 
   beforeAll(async () => {
 

@@ -3,6 +3,7 @@ import { ChromaDBContainer, StartedChromaDBContainer } from '@testcontainers/chr
 import { ChromaClient } from 'chromadb';
 import { randomUUID } from 'crypto';
 import { unlinkSync, writeFileSync } from 'fs';
+import os from 'os';
 import bcrypt from 'bcrypt';
 
 const CHROMA_IMAGE = 'chromadb/chroma:0.5.5'
@@ -347,7 +348,7 @@ test.describe('ConnectionPage ACCESS_TOKEN', () => {
 test.describe('ConnectionPage USERNAME_PASSWORD', () => {
   const username = 'testuser'
   const password = randomUUID();
-  const htpasswdFileLocation = `/tmp/${randomUUID()}.htpasswd`
+  const htpasswdFileLocation = `${os.tmpdir()}/${randomUUID()}.htpasswd`
   let container: StartedChromaDBContainer | undefined = undefined;
   let electronApp: ElectronApplication;
 
