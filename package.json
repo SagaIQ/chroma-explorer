@@ -1,5 +1,5 @@
 {
-  "name": "@sagaiq/chroma-explorer",
+  "name": "chroma-explorer",
   "productName": "Chroma Explorer",
   "version": "0.1.0",
   "description": "A ChromaDB Explorer built by SagaIQ",
