@@ -60,6 +60,6 @@
     "react-router-dom": "^6.26.2"
   },
   "packagerConfig": {
-    "executableName": "chroma-explorer"
+    "executableName": "playground"
   }
 }
