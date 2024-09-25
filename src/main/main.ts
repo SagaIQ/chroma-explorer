@@ -30,15 +30,15 @@ export const setup = () => {
 
   ipcMain.handle(Channels.GET_COLLECTION, async (_, collectionName: string) => {
     return chromaService.getCollection(collectionName);
-  }); 
+  });
 
   ipcMain.handle(Channels.GET_DOCUMENT, async (_, collectionName: string, documentName: string) => {
     return chromaService.getDocument(collectionName, documentName);
-  }); 
+  });
 
   ipcMain.handle(Channels.SEARCH_COLLECTION, async (_, collectionName: string, searchString: string) => {
     return chromaService.searchCollection(collectionName, searchString);
-  }); 
+  });
 }
 
 setup()
@@ -53,6 +53,7 @@ const createWindow = () => {
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
+    icon: 'assets/icon.png'
   });
 
   // mainWindow.webContents.openDevTools();
