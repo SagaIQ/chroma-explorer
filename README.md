@@ -5,6 +5,10 @@
 # Chroma Explorer by [SagaIQ](https://sagaiq.ai)
 A simple, intuitive desktop application for Mac, Windows, and Linux, providing a user-friendly interface to explore the contents of your ChromaDB databases.
 
+
+https://github.com/user-attachments/assets/ccadae21-8e09-4187-b060-fd45c9fd4027
+
+
 [![Continuous build](https://github.com/SagaIQ/chroma-explorer/actions/workflows/main.yml/badge.svg)](https://github.com/SagaIQ/chroma-explorer/actions/workflows/main.yml)
 
 
